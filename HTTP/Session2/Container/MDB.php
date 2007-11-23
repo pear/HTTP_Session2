@@ -296,6 +296,5 @@ class HTTP_Session2_Container_MDB extends HTTP_Session2_Container
 
         return true;
     }
-
 }
 
