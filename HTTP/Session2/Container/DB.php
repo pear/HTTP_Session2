@@ -92,8 +92,17 @@ class HTTP_Session2_Container_DB extends HTTP_Session2_Container
      */
     public function __construct($options)
     {
+        parent::__construct();
+        
 	$this->options['table'] = $options['table'];
-	$this->options['dsn'] = "{$options['dsn']['phptype']}://{$options['dsn']['username']}:{$options['dsn']['password']}@{$options['dsn']['hostspec']}/{$options['dsn']['database']}";	
+	$this->options['dsn']   = sprintf(
+            '%s://%s:%s@%s/%s',
+            $options['dsn']['phptype'],
+            $options['dsn']['username'],
+            $options['dsn']['password'],
+            $options['dsn']['hostspec'],
+            $options['dsn']['database']
+        );
     }
 
     /**
@@ -112,19 +121,17 @@ class HTTP_Session2_Container_DB extends HTTP_Session2_Container
         } else if (is_object($dsn) && DB::isError($dsn)) {
             return new DB_Error($dsn->code, PEAR_ERROR_DIE);
         } else {
-            return new PEAR_Error("The given dsn was not valid in file " . __FILE__ . " at line " . __LINE__,
-                                  41,
-                                  PEAR_ERROR_RETURN,
-                                  null,
-                                  null
-                                  );
-
+            return new PEAR_Error(
+                "The given dsn was not valid in file " . __FILE__ . " at line " . __LINE__,
+                41,
+                PEAR_ERROR_RETURN,
+                null,
+                null
+            );
         }
-
         if (DB::isError($this->db)) {
             return new DB_Error($this->db->code, PEAR_ERROR_DIE);
         }
-
         return true;
     }
 
@@ -135,9 +142,9 @@ class HTTP_Session2_Container_DB extends HTTP_Session2_Container
      */
     private function setDefaults()
     {
-        $this->options['dsn']           = null;
-        $this->options['table']         = 'sessiondata';
-        $this->options['autooptimize']  = false;
+        $this->options['dsn']          = null;
+        $this->options['table']        = 'sessiondata';
+        $this->options['autooptimize'] = false;
     }
 
     /**
