@@ -42,33 +42,33 @@ http://pear.php.net/dtd/package-2.0.xsd">
    <dir name="HTTP">
     <dir name="Session2">
      <dir name="Container">
-      <file baseinstalldir="/" name="Creole.php" role="php">
+      <file name="Creole.php" role="php">
        <tasks:replace from="@package_version@" to="version" type="package-info" />
        <tasks:replace from="@data_dir@" to="data_dir" type="pear-config" />
       </file>
-      <file baseinstalldir="/" name="DB.php" role="php">
+      <file name="DB.php" role="php">
        <tasks:replace from="@package_version@" to="version" type="package-info" />
        <tasks:replace from="@data_dir@" to="data_dir" type="pear-config" />
       </file>
-      <file baseinstalldir="/" name="MDB.php" role="php">
+      <file name="MDB.php" role="php">
        <tasks:replace from="@package_version@" to="version" type="package-info" />
        <tasks:replace from="@data_dir@" to="data_dir" type="pear-config" />
       </file>
      </dir> <!-- //HTTP/Session2/Container -->
-     <file baseinstalldir="/" name="Container.php" role="php">
+     <file name="Container.php" role="php">
       <tasks:replace from="@package_version@" to="version" type="package-info" />
       <tasks:replace from="@data_dir@" to="data_dir" type="pear-config" />
      </file>
-     <file baseinstalldir="/" name="ContainerInterface.php" role="php">
+     <file name="ContainerInterface.php" role="php">
       <tasks:replace from="@package_version@" to="version" type="package-info" />
       <tasks:replace from="@data_dir@" to="data_dir" type="pear-config" />
      </file>
-     <file baseinstalldir="/" name="Exception.php" role="php">
+     <file name="Exception.php" role="php">
       <tasks:replace from="@package_version@" to="version" type="package-info" />
       <tasks:replace from="@data_dir@" to="data_dir" type="pear-config" />
      </file>
     </dir> <!-- //HTTP/Session2 -->
-    <file baseinstalldir="/" name="Session2.php" role="php">
+    <file name="Session2.php" role="php">
      <tasks:replace from="@package_version@" to="version" type="package-info" />
      <tasks:replace from="@data_dir@" to="data_dir" type="pear-config" />
     </file>
