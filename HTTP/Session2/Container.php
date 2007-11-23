@@ -40,9 +40,13 @@
  * @package  HTTP_Session2
  * @author   Alexander Radivaniovich <info@wwwlab.net>
  * @author   Tony Bibbs <tony@geeklog.net>
- * @license
+ * @license  http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version  CVS: $Id$
  * @link     http://pear.php.net/package/HTTP_Session2
+ */
+
+/**
+ * HTTP_Session2_Container_Interface
  */
 require_once 'HTTP/Session2/ContainerInterface.php';
 
@@ -53,7 +57,7 @@ require_once 'HTTP/Session2/ContainerInterface.php';
  * @package  HTTP_Session2
  * @author   Alexander Radivaniovich <info@wwwlab.net>
  * @author   Tony Bibbs <tony@geeklog.net>
- * @license
+ * @license  http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version  CVS: $Id$
  * @link     http://pear.php.net/package/HTTP_Session2
  */
