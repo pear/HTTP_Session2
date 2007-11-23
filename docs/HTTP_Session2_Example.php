@@ -36,16 +36,24 @@
 
 //ob_start(); //-- For easy debugging --//
 
-require_once ("PEAR.php");
-require_once ("HTTP/Session.php");
+require_once 'PEAR.php';
+require_once 'HTTP/Session2.php';
 
 ini_set('error_reporting', E_ALL);
 ini_set('display_errors', 1);
 //PEAR::setErrorHandling(PEAR_ERROR_DIE);
 
-//HTTP_Session::setContainer('DB', array('dsn' => 'mysql://root@localhost/database', 'table' => 'sessiondata'));
-HTTP_Session::useCookies(true);
-HTTP_Session::start('SessionID', uniqid('MyID'));
+/*
+HTTP_Session2::setContainer(
+    'DB',
+    array(
+        'dsn' => 'mysql://root@localhost/database',
+        'table' => 'sessiondata'
+    )
+);
+*/
+HTTP_Session2::useCookies(true);
+HTTP_Session2::start('SessionID', uniqid('MyID'));
 
 ?>
 <html>
@@ -76,40 +84,40 @@ if (!isset($variable)) {
 
 switch (@$_GET['action']) {
     case 'setvariable':
-        HTTP_Session::set('variable', 'Test string');
-        //HTTP_Session::register('variable');
+        HTTP_Session2::set('variable', 'Test string');
+        //HTTP_Session2::register('variable');
         break;
     case 'unsetvariable':
-        HTTP_Session::set('variable', null);
-        //HTTP_Session::unregister('variable');
+        HTTP_Session2::set('variable', null);
+        //HTTP_Session2::unregister('variable');
         break;
     case 'clearsession':
-        HTTP_Session::clear();
+        HTTP_Session2::clear();
         break;
     case 'destroysession':
-        HTTP_Session::destroy();
+        HTTP_Session2::destroy();
         break;
 }
 
-HTTP_Session::setExpire(60);
-HTTP_Session::setIdle(5);
+HTTP_Session2::setExpire(60);
+HTTP_Session2::setIdle(5);
 
 //echo("session_is_registered('variable'): <b>'" . (session_is_registered('variable') ? "<span style='color: red;'>yes</span>" : "no") . "'</b><br>\n");
 //echo("isset(\$GLOBALS['variable']): <b>'" . (isset($GLOBALS['variable']) ? "<span style='color: red;'>yes</span>" : "no") . "'</b><br>\n");
 
 echo("------------------------------------------------------------------<br>\n");
-echo("Session name: <b>'" . HTTP_Session::name() . "'</b><br>\n");
-echo("Session id: <b>'" . HTTP_Session::id() . "'</b><br>\n");
-echo("Is new session: <b>'" . (HTTP_Session::isNew() ? "<span style='color: red;'>yes</span>" : "no") . "'</b><br>\n");
-echo("Is expired: <b>'" . (HTTP_Session::isExpired() ? "<span style='color: red;'>yes</span>" : "no") . "'</b><br>\n");
-echo("Is idle: <b>'" . (HTTP_Session::isIdle() ? "<span style='color: red;'>yes</span>" : "no") . "'</b><br>\n");
-//echo("Variable: <b>'" . HTTP_Session::get('variable') . "'</b><br>\n");
-echo("Session valid thru: <b>'" . (HTTP_Session::sessionValidThru() - time()) . "'</b><br>\n");
+echo("Session name: <b>'" . HTTP_Session2::name() . "'</b><br>\n");
+echo("Session id: <b>'" . HTTP_Session2::id() . "'</b><br>\n");
+echo("Is new session: <b>'" . (HTTP_Session2::isNew() ? "<span style='color: red;'>yes</span>" : "no") . "'</b><br>\n");
+echo("Is expired: <b>'" . (HTTP_Session2::isExpired() ? "<span style='color: red;'>yes</span>" : "no") . "'</b><br>\n");
+echo("Is idle: <b>'" . (HTTP_Session2::isIdle() ? "<span style='color: red;'>yes</span>" : "no") . "'</b><br>\n");
+//echo("Variable: <b>'" . HTTP_Session2::get('variable') . "'</b><br>\n");
+echo("Session valid thru: <b>'" . (HTTP_Session2::sessionValidThru() - time()) . "'</b><br>\n");
 echo("------------------------------------------------------------------<br>\n");
 
-if (HTTP_Session::isNew()) {
-    //HTTP_Session::set('var', 'value');
-    //HTTP_Session::setLocal('localvar', 'localvalue');
+if (HTTP_Session2::isNew()) {
+    //HTTP_Session2::set('var', 'value');
+    //HTTP_Session2::setLocal('localvar', 'localvalue');
     //blah blah blah
 }
 
@@ -124,7 +132,7 @@ var_dump($_SESSION);
 </div>
 <?php
 
-HTTP_Session::updateIdle();
+HTTP_Session2::updateIdle();
 
 ?>
 <p><a href="<?php echo $_SERVER['SCRIPT_NAME'] ?>?action=setvariable">Set variable</a></p>
