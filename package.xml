@@ -1,1 +1,110 @@
-here
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
+<package version="1.0">
+  <name>HTTP_Session2</name>
+  <summary>PHP5 Session Handler</summary>
+  <description>PHP5 Object-oriented interface to the session_* family functions it 
+                    provides extra features such as database storage for session data using DB 
+                    package. Supported containers are Creole, PEAR::DB and PEAR::MDB. It introduces 
+                    new methods like isNew(), useCookies(), setExpire(), setIdle(), isExpired(), 
+                    isIdled() and others.</description>
+  <maintainers>
+    <maintainer>
+      <user>till</user>
+      <name>Till Klampaeckel</name>
+      <email>till@php.net</email>
+      <role>lead</role>
+    </maintainer>
+    <maintainer>
+      <user>bate</user>
+      <name>Marco Kaiser</name>
+      <email>bate@php.net</email>
+      <role>developer</role>
+    </maintainer>
+  </maintainers>
+  <release>
+    <version>0.2.0</version>
+    <date>2005-06-08</date>
+    <license>PHP License</license>
+    <state>alpha</state>
+    <notes>Development snapshot, not for production use.</notes>
+    <provides type="class" name="HTTP_Session2_Container" />
+    <provides type="function" name="HTTP_Session2_Container::setDefaults" />
+    <provides type="function" name="HTTP_Session2_Container::parseOptions" />
+    <provides type="function" name="HTTP_Session2_Container::set" />
+    <provides type="function" name="HTTP_Session2_Open" />
+    <provides type="function" name="HTTP_Session2_Close" />
+    <provides type="function" name="HTTP_Session2_Read" />
+    <provides type="function" name="HTTP_Session2_Write" />
+    <provides type="function" name="HTTP_Session2_Destroy" />
+    <provides type="function" name="HTTP_Session2_GC" />
+    <provides type="function" name="HTTP_Session2_Container_Interface::open" />
+    <provides type="function" name="HTTP_Session2_Container_Interface::close" />
+    <provides type="function" name="HTTP_Session2_Container_Interface::read" />
+    <provides type="function" name="HTTP_Session2_Container_Interface::write" />
+    <provides type="function" name="HTTP_Session2_Container_Interface::destroy" />
+    <provides type="function" name="HTTP_Session2_Container_Interface::gc" />
+    <provides type="class" name="HTTP_Session2_Container_Creole" extends="HTTP_Session2_Container" />
+    <provides type="function" name="HTTP_Session2_Container_Creole::connect" />
+    <provides type="function" name="HTTP_Session2_Container_Creole::setDefaults" />
+    <provides type="function" name="HTTP_Session2_Container_Creole::open" />
+    <provides type="function" name="HTTP_Session2_Container_Creole::close" />
+    <provides type="function" name="HTTP_Session2_Container_Creole::read" />
+    <provides type="class" name="HTTP_Session2_Container_DB" extends="HTTP_Session2_Container" />
+    <provides type="class" name="HTTP_Session2_Container_MDB" extends="HTTP_Session2_Container" />
+    <provides type="function" name="HTTP_Session2_Container_MDB::open" />
+    <provides type="function" name="HTTP_Session2_Container_MDB::close" />
+    <provides type="function" name="HTTP_Session2_Container_MDB::read" />
+    <provides type="function" name="HTTP_Session2_Container_MDB::write" />
+    <provides type="function" name="HTTP_Session2_Container_MDB::destroy" />
+    <provides type="function" name="HTTP_Session2_Container_MDB::gc" />
+    <provides type="class" name="HTTP_Session2_Tests_AllTests" />
+    <provides type="function" name="HTTP_Session2_Tests_AllTests::main" />
+    <provides type="function" name="HTTP_Session2_Tests_AllTests::suite" />
+    <provides type="class" name="HTTP_Session2_Tests_Session2Test" extends="PHPUnit2_Framework_TestCase" />
+    <provides type="function" name="HTTP_Session2_Tests_Session2Test::setUp" />
+    <provides type="function" name="HTTP_Session2_Tests_Session2Test::testSessionSet" />
+    <provides type="class" name="HTTP_Session2" />
+    <provides type="function" name="HTTP_Session2::setContainer" />
+    <filelist>
+      <file role="data" baseinstalldir="HTTP" md5sum="d1664cb089687edcef76d052293a7092" name="CVS/Entries"/>
+      <file role="data" baseinstalldir="HTTP" md5sum="512067ff35a29011826f5458f8c213ce" name="CVS/Entries.Extra"/>
+      <file role="data" baseinstalldir="HTTP" md5sum="eadaf05a0c4279e58c3906965bd18857" name="CVS/Entries.Extra.Old"/>
+      <file role="data" baseinstalldir="HTTP" md5sum="4bac5ff40d715ced08bead535fe391c6" name="CVS/Entries.Old"/>
+      <file role="data" baseinstalldir="HTTP" md5sum="64dec2a6f7b92827038d93ce00d5dc5e" name="CVS/Repository"/>
+      <file role="data" baseinstalldir="HTTP" md5sum="0825aab84b39872b7b685e848e993092" name="CVS/Root"/>
+      <file role="php" baseinstalldir="HTTP" md5sum="0eea9e1fffb1b38d77a7d750b16d7c2a" name="docs/HTTP_Session2_Example.php"/>
+      <file role="data" baseinstalldir="HTTP" md5sum="0fefd5f8528c2d8a59720b3815a1efb2" name="docs/sessiondata.sql"/>
+      <file role="data" baseinstalldir="HTTP" md5sum="6cc41b7a2f29a0dc5ac9ade53bdcee6a" name="docs/CVS/Entries"/>
+      <file role="data" baseinstalldir="HTTP" md5sum="d41d8cd98f00b204e9800998ecf8427e" name="docs/CVS/Entries.Extra"/>
+      <file role="data" baseinstalldir="HTTP" md5sum="d41d8cd98f00b204e9800998ecf8427e" name="docs/CVS/Entries.Extra.Old"/>
+      <file role="data" baseinstalldir="HTTP" md5sum="d41d8cd98f00b204e9800998ecf8427e" name="docs/CVS/Entries.Old"/>
+      <file role="data" baseinstalldir="HTTP" md5sum="b503833e1bf677e600232893107c5fa9" name="docs/CVS/Repository"/>
+      <file role="data" baseinstalldir="HTTP" md5sum="0825aab84b39872b7b685e848e993092" name="docs/CVS/Root"/>
+      <file role="php" baseinstalldir="HTTP" md5sum="849d86cb780ead82d907fe16cc1e0f39" name="Session2/Container.php"/>
+      <file role="php" baseinstalldir="HTTP" md5sum="f227251e4acbb0abdbc628ddca429639" name="Session2/ContainerInterface.php"/>
+      <file role="php" baseinstalldir="HTTP" md5sum="36674340cbac4ff04bf13dad95d569f8" name="Session2/Container/Creole.php"/>
+      <file role="php" baseinstalldir="HTTP" md5sum="66b831ceb6bf1f9baa460010c3bfac5b" name="Session2/Container/DB.php"/>
+      <file role="php" baseinstalldir="HTTP" md5sum="f5c2b2d0c3a5269fef1f1c0431f56930" name="Session2/Container/MDB.php"/>
+      <file role="data" baseinstalldir="HTTP" md5sum="6cc41b7a2f29a0dc5ac9ade53bdcee6a" name="Session2/CVS/Entries"/>
+      <file role="data" baseinstalldir="HTTP" md5sum="d41d8cd98f00b204e9800998ecf8427e" name="Session2/CVS/Entries.Extra"/>
+      <file role="data" baseinstalldir="HTTP" md5sum="d41d8cd98f00b204e9800998ecf8427e" name="Session2/CVS/Entries.Extra.Old"/>
+      <file role="data" baseinstalldir="HTTP" md5sum="d41d8cd98f00b204e9800998ecf8427e" name="Session2/CVS/Entries.Old"/>
+      <file role="data" baseinstalldir="HTTP" md5sum="e969703cc9373a1ccd4576523d1effab" name="Session2/CVS/Repository"/>
+      <file role="data" baseinstalldir="HTTP" md5sum="0825aab84b39872b7b685e848e993092" name="Session2/CVS/Root"/>
+      <file role="php" baseinstalldir="HTTP" md5sum="8cd0d4fa51c9a98081ceac71f60f86e3" name="Session2/Tests/AllTests.php"/>
+      <file role="php" baseinstalldir="HTTP" md5sum="3708d97fa6fdc87c89bdcb132039d915" name="Session2/Tests/Session2Test.php"/>
+      <file role="php" baseinstalldir="HTTP" md5sum="d1d69d623a71c75604133b68091dd767" name="buildPackage.php"/>
+      <file role="php" baseinstalldir="HTTP" md5sum="406eac970173c5ddca75cbcf9e226636" name="Session2.php"/>
+    </filelist>
+  </release>
+  <changelog>
+    <release>
+      <version>0.2.0</version>
+      <date>2005-06-08</date>
+      <license>PHP License</license>
+      <state>alpha</state>
+      <notes>Development snapshot, not for production use.</notes>
+    </release>
+  </changelog>
+</package>
