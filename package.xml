@@ -77,6 +77,10 @@ http://pear.php.net/dtd/package-2.0.xsd">
     <file name="HTTP_Session2_Example.php" role="doc"/>
     <file name="sessiondata.sql" role="doc"/>
    </dir>
+   <dir name="tests" baseinstalldir="HTTP_Session2">
+    <file name="AllTests.php" role="test"/>
+    <file name="Session2Test.php" role="test"/>
+   </dir>
   </dir> <!-- / -->
  </contents>
  <dependencies>
