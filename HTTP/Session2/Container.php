@@ -42,7 +42,6 @@ require_once 'HTTP/Session2/ContainerInterface.php';
  *
  * @author  Alexander Radivaniovich <info@wwwlab.net>
  * @package HTTP_Session2
- * @access  public
  */
 abstract class HTTP_Session2_Container implements HTTP_Session2_Container_Interface
 {
@@ -87,17 +86,16 @@ abstract class HTTP_Session2_Container implements HTTP_Session2_Container_Interf
     protected function parseOptions($options)
     {
     	foreach ($options as $option => $value) {
-        	if (in_array($option, array_keys($this->options))) {
+            if (in_array($option, array_keys($this->options))) {
                 $this->options[$option] = $value;
             }
         }
-        print_r($this->options); exit;
+        //print_r($this->options); exit;
     }
 
     /**
      * Set session save handler
      *
-     * @access public
      * @return void
      */
     public function set()
@@ -105,59 +103,12 @@ abstract class HTTP_Session2_Container implements HTTP_Session2_Container_Interf
         $GLOBALS['HTTP_Session2_Container'] =& $this;
         session_module_name('user');
         session_set_save_handler(
-            'HTTP_Session2_Open',
-            'HTTP_Session2_Close',
-            'HTTP_Session2_Read',
-            'HTTP_Session2_Write',
-            'HTTP_Session2_Destroy',
-            'HTTP_Session2_GC'
+            array($this, 'open'),
+            array($this, 'close'),
+            array($this, 'read'),
+            array($this, 'write'),
+            array($this, 'destroy'),
+            array($this, 'gc')
         );
     }
-
 }
-
-// Delegate function calls to the object's methods
-/** @ignore */
-function HTTP_Session2_Open($save_path, $session_name) 
-{ 
-	return $GLOBALS['HTTP_Session2_Container']->open($save_path, $session_name); 
-}
-
-/** @ignore */
-function HTTP_Session2_Close()                         
-{ 
-	return $GLOBALS['HTTP_Session2_Container']->close(); 
-}
-
-/** @ignore */
-function HTTP_Session2_Read($id)                       
-{ 
-	return $GLOBALS['HTTP_Session2_Container']->read($id); 
-
-}
-
-/** @ignore */
-function HTTP_Session2_Write($id, $data)               
-{ 
-	return $GLOBALS['HTTP_Session2_Container']->write($id, $data); 
-}
-
-/** @ignore */
-function HTTP_Session2_Destroy($id)                    
-{ 
-	return $GLOBALS['HTTP_Session2_Container']->destroy($id); 
-}
-
-/** @ignore */
-function HTTP_Session2_GC($maxlifetime)                
-{ 
-	return $GLOBALS['HTTP_Session2_Container']->gc($maxlifetime); 
-}
-
-session_set_save_handler('HTTP_Session2_Open',
-	'HTTP_Session2_Close',
-	'HTTP_Session2_Read',
-	'HTTP_Session2_Write',
-	'HTTP_Session2_Destroy',
-	'HTTP_Session2_GC');
-?>
