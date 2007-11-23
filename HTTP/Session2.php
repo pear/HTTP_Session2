@@ -378,12 +378,17 @@ class HTTP_Session2 {
      */
     public static function isIdle()
     {
-        if ($GLOBALS['__HTTP_Session2_Idle'] > 0 && isset($_SESSION['__HTTP_Session2_Idle_TS']) &&
-            ($_SESSION['__HTTP_Session2_Idle_TS'] + $GLOBALS['__HTTP_Session2_Idle']) <= time()) {
+        if (
+            isset($GLOBALS['__HTTP_Session2_Idle'])
+            && $GLOBALS['__HTTP_Session2_Idle'] > 0
+            && isset($_SESSION['__HTTP_Session2_Idle_TS'])
+            && (
+                $_SESSION['__HTTP_Session2_Idle_TS']
+                + $GLOBALS['__HTTP_Session2_Idle']
+            ) <= time()) {
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
