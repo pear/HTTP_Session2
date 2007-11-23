@@ -1,38 +1,43 @@
 <?php
-//
-// +-----------------------------------------------------------------------+
-// | Copyright (c) 2004, Tony Bibbs                                        |
-// | All rights reserved.                                                  |
-// |                                                                       |
-// | Redistribution and use in source and binary forms, with or without    |
-// | modification, are permitted provided that the following conditions    |
-// | are met:                                                              |
-// |                                                                       |
-// | o Redistributions of source code must retain the above copyright      |
-// |   notice, this list of conditions and the following disclaimer.       |
-// | o Redistributions in binary form must reproduce the above copyright   |
-// |   notice, this list of conditions and the following disclaimer in the |
-// |   documentation and/or other materials provided with the distribution.|
-// | o The names of the authors may not be used to endorse or promote      |
-// |   products derived from this software without specific prior written  |
-// |   permission.                                                         |
-// |                                                                       |
-// | THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS   |
-// | "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT     |
-// | LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR |
-// | A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT  |
-// | OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, |
-// | SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT      |
-// | LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, |
-// | DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY |
-// | THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT   |
-// | (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE |
-// | OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  |
-// |                                                                       |
-// +-----------------------------------------------------------------------+
-// | Author: Tony Bibbs <tony@geeklog.net                                  |
-// +-----------------------------------------------------------------------+
-//
+/**
+ * +-----------------------------------------------------------------------+
+ * | Copyright (c) 2004, Tony Bibbs                                        |
+ * | All rights reserved.                                                  |
+ * |                                                                       |
+ * | Redistribution and use in source and binary forms, with or without    |
+ * | modification, are permitted provided that the following conditions    |
+ * | are met:                                                              |
+ * |                                                                       |
+ * | o Redistributions of source code must retain the above copyright      |
+ * |   notice, this list of conditions and the following disclaimer.       |
+ * | o Redistributions in binary form must reproduce the above copyright   |
+ * |   notice, this list of conditions and the following disclaimer in the |
+ * |   documentation and/or other materials provided with the distribution.|
+ * | o The names of the authors may not be used to endorse or promote      |
+ * |   products derived from this software without specific prior written  |
+ * |   permission.                                                         |
+ * |                                                                       |
+ * | THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS   |
+ * | "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT     |
+ * | LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR |
+ * | A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT  |
+ * | OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, |
+ * | SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT      |
+ * | LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, |
+ * | DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY |
+ * | THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT   |
+ * | (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE |
+ * | OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  |
+ * |                                                                       |
+ * +-----------------------------------------------------------------------+
+ * | Author: Tony Bibbs <tony@geeklog.net>                                 |
+ * +-----------------------------------------------------------------------+
+ *
+ * @category   HTTP
+ * @package    HTTP_Session2
+ * @subpackage HTTP_Session2_Container_Creole
+ * @author     Tony Bibbs <tony@geeklog.net>
+ */
 
 /**
  * Abstract container class
@@ -64,7 +69,6 @@ require_once 'PEAR/Exception.php';
  *
  * @author  Tony Bibbs <tony@geeklog.net>
  * @package HTTP_Session2
- * @access  public
  */
 class HTTP_Session2_Container_Creole extends HTTP_Session2_Container
 {
@@ -164,7 +168,10 @@ class HTTP_Session2_Container_Creole extends HTTP_Session2_Container
      */
     public function read($id)
     {
-    	$sql = sprintf('SELECT data FROM %s WHERE id = ? AND expiry >= ?', $this->options['table']);
+    	$sql = sprintf(
+            'SELECT data FROM %s WHERE id = ? AND expiry >= ?',
+            $this->options['table']
+        );
     	$prepStmt = $this->db->prepareStatement($sql);
     	$args = array(md5($id),time());
     	$rs = $prepStmt->executeQuery($args,ResultSet::FETCHMODE_NUM);
@@ -185,35 +192,52 @@ class HTTP_Session2_Container_Creole extends HTTP_Session2_Container
     public function write($id, $data)
     {
     	if ((false !== $this->crc) AND ($this->crc === strlen($data) . crc32($data))) {
-			// $_SESSION hasn't been touched, no need to update the blob column
+            // $_SESSION hasn't been touched, no need to update the blob column
             $sql = sprintf('UPDATE %s SET expiry = ? WHERE id = ? AND expiry >= ?', 
-            	$this->options['table']);
+            $this->options['table']);
+            
             $prepStmt = $this->db->prepareStatement($sql);
-            $args = array(time() + ini_get('session.gc_maxlifetime'),
-            				md5($id), time());
+            $args     = array(
+                time() + ini_get('session.gc_maxlifetime'),
+                md5($id),
+                time()
+            );
         } else {
-        	// Check if table row already exists
-            $sql = sprintf('SELECT COUNT(id) FROM %s WHERE id = ?', $this->options['table']);
+            // Check if table row already exists
+            $sql      = sprintf('SELECT COUNT(id) FROM %s WHERE id = ?', $this->options['table']);
             $prepStmt = $this->db->prepareStatement($sql);
-            $args = array(md5($id));
-            $rs = $prepStmt->executeQuery($args);
+            $args     = array(md5($id));
+            $rs       = $prepStmt->executeQuery($args);
             $rs->next();
+
             $result = $rs->getInt(1);
             if (0 == intval($result)) {
-            	print 'doing insert'; exit;
+            	//print 'doing insert'; exit;
                 // Insert new row into table
-                $sql = sprintf('INSERT INTO %s (id, expiry, data) VALUES (?, ?, ?)', 
-                	$this->options['table']);
+                $sql = sprintf(
+                    'INSERT INTO %s (id, expiry, data) VALUES (?, ?, ?)', 
+                    $this->options['table']
+                );
                 $prepStmt = $this->db->prepareStatement($sql);
-                $args = array(md5($id), time() + ini_get('session.gc_maxlifetime'), $data); 
+                $args     = array(
+                    md5($id),
+                    time() + ini_get('session.gc_maxlifetime'),
+                    $data
+                );
             } else {
-            	print 'hows this possible'; exit;
+            	//print 'hows this possible'; exit;
             	// Update existing row
-            	$sql = sprintf('UPDATE %s SET expiry = ?, data = ? WHERE id = ? AND expiry >= ?', 
-            		$this->options['table']);
+            	$sql = sprintf(
+                    'UPDATE %s SET expiry = ?, data = ? WHERE id = ? AND expiry >= ?',
+            	    $this->options['table']
+                );
             	$prepStmt = $this->db->prepareStatement($sql);
-                $args = array(time() + ini_get('session.gc_maxlifetime'), 
-                	$data, md5(id), time()); 
+                $args     = array(
+                    time() + ini_get('session.gc_maxlifetime'), 
+                    $data,
+                    md5($id),
+                    time()
+                ); 
             }
         }
         
@@ -225,19 +249,29 @@ class HTTP_Session2_Container_Creole extends HTTP_Session2_Container
     /**
      * Destroy session data
      *
+     * @param string $id The id of the session to delete.
+     *
+     * @return boolean
      */
     public function destroy($id)
     {
-    	$sql = sprintf('DELETE FROM %s WHERE id = ?', $this->options['table']);
+    	$sql      = sprintf('DELETE FROM %s WHERE id = ?', $this->options['table']);
     	$prepStmt = $this->db->prepareStatement($sql);
-    	$args = array(md5($id));
-    	$result = $prepStmt->executeQuery($args);
+    	$args     = array(md5($id));
+    	$result   = $prepStmt->executeQuery($args);
+
         return true;
     }
 
     /**
      * Garbage collection
      *
+     * @todo Figure out why the creole driver (DBAL!!!) needs a switch for different database systems.
+     * @todo Figure out why it uses PEAR::DB
+     *
+     * @param int $maxlifetime The lifetime of the cache.
+     *
+     * @return boolean
      */
     public function gc($maxlifetime)
     {
@@ -265,10 +299,6 @@ class HTTP_Session2_Container_Creole extends HTTP_Session2_Container
                 }
             }
         }*/
-
         return true;
     }
-
 }
-
-?>
