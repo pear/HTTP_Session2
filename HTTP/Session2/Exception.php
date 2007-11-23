@@ -2,6 +2,8 @@
 /**
  * HTTP_Session2_Exception
  *
+ * Base exception class for HTTP_Session2
+ *
  * Copyright (c) 2007, Till Klampaeckel
  *
  * All rights reserved.
@@ -36,8 +38,28 @@
  * @package  HTTP_Session2
  * @author   Till Klampaeckel <till@php.net>
  * @license  http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version  CVS: $id$
+ * @version  CVS: $Id$
+ * @link     http://pear.php.net/package/HTTP_Session2
+ */
+
+/**
+ * PEAR/Exception.php
+ * @ignore
+ */
+require_once 'PEAR/Exception.php';
+
+/**
+ * HTTP_Session2_Exception
+ *
+ * PHP version 5
+ *
+ * @category HTTP
+ * @package  HTTP_Session2
+ * @author   Till Klampaeckel <till@php.net>
+ * @license  http://www.opensource.org/licenses/bsd-license.php The BSD License
+ * @version  CVS: $Id$
  * @link     http://pear.php.net/package/HTTP_Session2
  */
 class HTTP_Session2_Exception extends PEAR_Exception
-{}
+{
+}
