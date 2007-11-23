@@ -38,7 +38,7 @@
 		<provides type="function" name="HTTP_Session2_Container_MDB::destroy"/>
 		<provides type="function" name="HTTP_Session2_Container_MDB::gc"/>
 		<filelist>
-			<dir name="/" baseinstalldir="HTTP">
+			<dir name="HTTP" baseinstalldir="/">
 				<dir name="Session2">
 					<dir name="Container">
 						<file role="php" name="MDB.php">
