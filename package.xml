@@ -8,7 +8,7 @@
                     package. Supported containers are Creole, PEAR::DB and PEAR::MDB. It introduces 
                     new methods like isNew(), useCookies(), setExpire(), setIdle(), isExpired(), 
                     isIdled() and others.
- </description>
+        </description>
 	<maintainers>
 		<maintainer>
 			<user>till</user>
@@ -20,7 +20,7 @@
 			<user>bate</user>
 			<name>Marco Kaiser</name>
 			<email>bate@php.net</email>
-			<role>lead</role>
+			<role>developer</role>
 		</maintainer>
 	</maintainers>
 	<release>
@@ -28,8 +28,7 @@
 		<date>2007-11-23</date>
 		<license>PHP License</license>
 		<state>alpha</state>
-		<notes>Use at your own risk.
-  </notes>
+		<notes>Use at your own risk.</notes>
 		<provides type="class" name="HTTP_Session2_Container_MDB" extends="HTTP_Session2_Container"/>
 		<provides type="function" name="HTTP_Session2_Container_MDB::open"/>
 		<provides type="function" name="HTTP_Session2_Container_MDB::close"/>
@@ -85,7 +84,7 @@
 		</release>
 		<release>
 			<version>0.5.0</version>
-			<date>2007-11-23</date>
+			<date>2007-11-24</date>
 			<license>PHP License</license>
 			<state>alpha</state>
 			<notes>Use at your own risk.
