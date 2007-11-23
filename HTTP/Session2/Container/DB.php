@@ -297,4 +297,3 @@ class HTTP_Session2_Container_DB extends HTTP_Session2_Container
     }
 }
 
-?>
