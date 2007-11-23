@@ -25,8 +25,9 @@ require_once 'HTTP/Session2.php';
  * @category    HTTP
  * @package     HTTP_Session2
  */
-class HTTP_Session2_Tests_Session2Test extends PHPUnit2_Framework_TestCase {
-    public function  setUp() 
+class HTTP_Session2_Tests_Session2Test extends PHPUnit2_Framework_TestCase
+{
+    public function setUp() 
     {
     	$this->dsn = array('phptype' => 'mysql',
              'hostspec' => 'localhost',
@@ -36,10 +37,13 @@ class HTTP_Session2_Tests_Session2Test extends PHPUnit2_Framework_TestCase {
              
         $this->table = 'gl2_session';
              
-    	HTTP_Session2::setContainer('Creole', array('dsn'=>$this->dsn,'table'=>$this->table));
+    	HTTP_Session2::setContainer('Creole',
+            array('dsn'=>$this->dsn,'table'=>$this->table));
     }
 
-    /*public function testSessionStart() {
+    /*
+    public function testSessionStart()
+    {
     	HTTP_Session2::start('HTTP_SESSION2_TEST_NAME', '1111111111');
         //$container = $GLOBALS['HTTP_Session2_Container'];
         $conn = Creole::getConnection($this->dsn);
@@ -48,9 +52,11 @@ class HTTP_Session2_Tests_Session2Test extends PHPUnit2_Framework_TestCase {
         $this->assertEquals(
         	$rs->getString('theCount'),
         	'1111111111');
-    }*/
+    }
+    */
     
-    public function testSessionSet() {
+    public function testSessionSet()
+    {
     	HTTP_Session2::start('HTTP_SESSION2_TEST_NAME', '1111111111');
     	HTTP_Session2::set('fname','Tony');
     	$this->assertEquals(
@@ -58,65 +64,67 @@ class HTTP_Session2_Tests_Session2Test extends PHPUnit2_Framework_TestCase {
     		'Tony');
     }
 
-/*    public function testRecursion() {
+    /*
+    public function testRecursion()
+    {
         $this->s->overloadNamespace(
-          '&MAIN',
-          new TestNamespace
+            '&MAIN',
+            new TestNamespace
         );
 
         $this->assertEquals(
-          '<p><b>text</b></p>',
-
-          $this->s->transform(
-            '<p><boldbold>text</boldbold></p>'
-          )
+            '<p><b>text</b></p>',
+            $this->s->transform(
+                '<p><boldbold>text</boldbold></p>'
+            )
         );
     }
 
-    public function testSelfReplacing() {
+    public function testSelfReplacing()
+    {
         $this->s->overloadNamespace(
-          '&MAIN',
-          new TestNamespace
+            '&MAIN',
+            new TestNamespace
         );
 
         $this->assertEquals(
-          '<html><body>text</body></html>',
-
-          $this->s->transform(
-            '<html><body/></html>'
-          )
+            '<html><body>text</body></html>',
+            $this->s->transform(
+                '<html><body/></html>'
+            )
         );
     }
 
-    public function testNamespace() {
+    public function testNamespace()
+    {
         $this->s->overloadNamespace(
-          'test',
-          new TestNamespace
+            'test',
+            new TestNamespace
         );
 
         $this->assertEquals(
-          '<p><b>text</b></p>',
-
-          $this->s->transform(
-            '<p><test:bold>text</test:bold></p>'
-          )
+            '<p><b>text</b></p>',
+            $this->s->transform(
+                '<p><test:bold>text</test:bold></p>'
+            )
         );
     }
 
-    public function testNamespaceURI() {
+    public function testNamespaceURI()
+    {
         $this->s->overloadNamespace(
-          'test',
-          new TestNamespace
+            'test',
+            new TestNamespace
         );
 
         $this->assertEquals(
-          '<p><b>text</b></p>',
-
-          $this->s->transform(
-            '<p><test:bold>text</test:bold></p>'
-          )
+            '<p><b>text</b></p>',
+            $this->s->transform(
+                '<p><test:bold>text</test:bold></p>'
+            )
         );
-    }*/
+    }
+    */
 }
 
 ?>
