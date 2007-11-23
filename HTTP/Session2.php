@@ -323,7 +323,11 @@ class HTTP_Session2 {
     public static function setIdle($time, $add = false)
     {
         if ($add) {
-            $GLOBALS['__HTTP_Session2_Idle'] += $time;
+            if (isset($_SESSION['__HTTP_Session2_Idle'])) {
+                $_SESSION['__HTTP_Session2_Idle'] += $time;
+            } else {
+                $_SESSION['__HTTP_Session2_Idle'] = $time;
+            }
         } else {
             $GLOBALS['__HTTP_Session2_Idle'] = $time;
         }
