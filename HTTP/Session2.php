@@ -307,7 +307,7 @@ class HTTP_Session2
      */
     public static function setExpire($time, $add = false)
     {
-        if ($add) {
+        if ($add && isset($GLOBALS['__HTTP_Session2_Expire'])) {
             $GLOBALS['__HTTP_Session2_Expire'] += $time;
         } else {
             $GLOBALS['__HTTP_Session2_Expire'] = $time;
@@ -331,12 +331,8 @@ class HTTP_Session2
      */
     public static function setIdle($time, $add = false)
     {
-        if ($add) {
-            if (isset($_SESSION['__HTTP_Session2_Idle'])) {
-                $_SESSION['__HTTP_Session2_Idle'] += $time;
-            } else {
-                $_SESSION['__HTTP_Session2_Idle'] = $time;
-            }
+        if ($add && isset($_SESSION['__HTTP_Session2_Idle'])) {
+            $_SESSION['__HTTP_Session2_Idle'] += $time;
         } else {
             $GLOBALS['__HTTP_Session2_Idle'] = $time;
         }
@@ -369,7 +365,8 @@ class HTTP_Session2
     public static function isExpired()
     {
         if (
-            $GLOBALS['__HTTP_Session2_Expire'] > 0
+            isset($GLOBALS['__HTTP_Session2_Expire'])
+            && $GLOBALS['__HTTP_Session2_Expire'] > 0
             && isset($_SESSION['__HTTP_Session2_Expire_TS'])
             &&
             (
@@ -514,7 +511,7 @@ class HTTP_Session2
      */
     public function set($name, $value)
     {
-        $return = @$_SESSION[$name];
+        $return = (isset($_SESSION[$name])) ? $_SESSION[$name] : null;
         if (null === $value) {
             unset($_SESSION[$name]);
         } else {
@@ -594,7 +591,7 @@ class HTTP_Session2
      */
     static function localName($name = null)
     {
-        $return = @$GLOBALS['__HTTP_Session2_Localname'];
+        $return = (isset($GLOBALS['__HTTP_Session2_Localname'])) ? $GLOBALS['__HTTP_Session2_Localname'] : '';
         if (!empty($name)) {
             $GLOBALS['__HTTP_Session2_Localname'] = $name;
         }
