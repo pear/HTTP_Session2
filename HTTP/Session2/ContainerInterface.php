@@ -50,5 +50,3 @@ interface HTTP_Session2_Container_Interface {
     public function destroy($id);
     public function gc($maxlifetime);
 }
-
-?>

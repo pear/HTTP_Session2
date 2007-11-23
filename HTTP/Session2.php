@@ -614,5 +614,3 @@ class HTTP_Session2
 }
 
 HTTP_Session2::init();
-
-?>
