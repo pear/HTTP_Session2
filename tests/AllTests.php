@@ -31,15 +31,18 @@ require_once 'PHPUnit2/Tests/Session2Test.php';
  * @category    HTTP
  * @package     HTTP_Session2
  */
-class HTTP_Session2_Tests_AllTests {
-    public static function main() {
+class HTTP_Session2_AllTests
+{
+    public static function main()
+    {
         PHPUnit2_TextUI_TestRunner::run(self::suite());
     }
 
-    public static function suite() {
+    public static function suite()
+    {
         $suite = new PHPUnit2_Framework_TestSuite('HTTP Session2');
 
-        $suite->addTestSuite('HTTP_Session2_Tests_TransformerTest');
+        $suite->addTestSuite('HTTP_Session2_Tests_Session2Test');
 
         return $suite;
     }
