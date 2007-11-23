@@ -79,16 +79,14 @@
 			<date>2005-06-08</date>
 			<license>PHP License</license>
 			<state>alpha</state>
-			<notes>Development snapshot, not for production use.
-    </notes>
+			<notes>Development snapshot, not for production use.</notes>
 		</release>
 		<release>
 			<version>0.5.0</version>
 			<date>2007-11-24</date>
 			<license>PHP License</license>
 			<state>alpha</state>
-			<notes>Use at your own risk.
-    </notes>
+			<notes>Use at your own risk.</notes>
 		</release>
 	</changelog>
 </package>

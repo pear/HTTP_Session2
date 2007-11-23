@@ -36,8 +36,7 @@ http://pear.php.net/dtd/package-2.0.xsd">
   <api>alpha</api>
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
- <notes>Use at your own risk.
- </notes>
+ <notes>Use at your own risk.</notes>
  <contents>
   <dir name="/">
    <dir name="HTTP">
@@ -79,7 +78,7 @@ http://pear.php.net/dtd/package-2.0.xsd">
  <dependencies>
   <required>
    <php>
-    <min>4.0.0</min>
+    <min>5.2.0</min>
    </php>
    <pearinstaller>
     <min>1.4.0b1</min>
@@ -99,9 +98,7 @@ http://pear.php.net/dtd/package-2.0.xsd">
    </stability>
    <date>2005-06-08</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>Development snapshot, not for production use.
-    
-   </notes>
+   <notes>Development snapshot, not for production use.</notes>
   </release>
   <release>
    <version>
@@ -114,9 +111,7 @@ http://pear.php.net/dtd/package-2.0.xsd">
    </stability>
    <date>2007-11-24</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>Use at your own risk.
-    
-   </notes>
+   <notes>Use at your own risk.</notes>
   </release>
  </changelog>
 </package>
