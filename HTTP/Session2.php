@@ -571,6 +571,21 @@ class HTTP_Session2 {
     }
 
     /**
+     * set the usage of transparent SID
+     *
+     * @param boolean $useTransSID
+     * @return boolean
+     */
+    public static function useTransSID($useTransSID = false)
+    {
+        $return = ini_get('session.use_trans_sid') ? true : false;
+        if ($useTransSID === false) {
+            ini_set('session.use_trans_sid', $useTransSID ? 1 : 0);
+        }
+        return $return;
+    }
+
+    /**
      * Sets new local name
      *
      * @static
