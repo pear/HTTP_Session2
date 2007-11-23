@@ -109,7 +109,6 @@ abstract class HTTP_Session2_Container implements HTTP_Session2_Container_Interf
                 $this->options[$option] = $value;
             }
         }
-        //print_r($this->options); exit;
     }
 
     /**
