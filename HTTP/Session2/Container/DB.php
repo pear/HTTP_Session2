@@ -1,42 +1,64 @@
 <?php
-//
-// +-----------------------------------------------------------------------+
-// | Copyright (c) 2002, Alexander Radivanovich                            |
-// | All rights reserved.                                                  |
-// |                                                                       |
-// | Redistribution and use in source and binary forms, with or without    |
-// | modification, are permitted provided that the following conditions    |
-// | are met:                                                              |
-// |                                                                       |
-// | o Redistributions of source code must retain the above copyright      |
-// |   notice, this list of conditions and the following disclaimer.       |
-// | o Redistributions in binary form must reproduce the above copyright   |
-// |   notice, this list of conditions and the following disclaimer in the |
-// |   documentation and/or other materials provided with the distribution.|
-// | o The names of the authors may not be used to endorse or promote      |
-// |   products derived from this software without specific prior written  |
-// |   permission.                                                         |
-// |                                                                       |
-// | THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS   |
-// | "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT     |
-// | LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR |
-// | A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT  |
-// | OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, |
-// | SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT      |
-// | LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, |
-// | DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY |
-// | THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT   |
-// | (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE |
-// | OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  |
-// |                                                                       |
-// +-----------------------------------------------------------------------+
-// | Author: Alexander Radivanovich <info@wwwlab.net>                      |
-// +-----------------------------------------------------------------------+
-//
+/**
+ * +-----------------------------------------------------------------------+
+ * | Copyright (c) 2002, Alexander Radivanovich                            |
+ * | All rights reserved.                                                  |
+ * |                                                                       |
+ * | Redistribution and use in source and binary forms, with or without    |
+ * | modification, are permitted provided that the following conditions    |
+ * | are met:                                                              |
+ * |                                                                       |
+ * | o Redistributions of source code must retain the above copyright      |
+ * |   notice, this list of conditions and the following disclaimer.       |
+ * | o Redistributions in binary form must reproduce the above copyright   |
+ * |   notice, this list of conditions and the following disclaimer in the |
+ * |   documentation and/or other materials provided with the distribution.|
+ * | o The names of the authors may not be used to endorse or promote      |
+ * |   products derived from this software without specific prior written  |
+ * |   permission.                                                         |
+ * |                                                                       |
+ * | THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS   |
+ * | "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT     |
+ * | LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR |
+ * | A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT  |
+ * | OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, |
+ * | SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT      |
+ * | LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, |
+ * | DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY |
+ * | THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT   |
+ * | (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE |
+ * | OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  |
+ * |                                                                       |
+ * +-----------------------------------------------------------------------+
+ * | Author: Alexander Radivanovich <info@wwwlab.net>                      |
+ * +-----------------------------------------------------------------------+
+ *
+ * PHP Version 5
+ *
+ * @category HTTP
+ * @package  HTTP_Session2
+ * @author   Alexander Radivanovich <info@wwwlab.net>
+ * @license  http://www.php.net/license/3_01.txt The PHP License
+ * @version  CVS: $Id$
+ * @link     http://pear.php.net/package/HTTP_Session2
+ */
 
+/**
+ * HTTP/Session2/Container.php
+ * @ignore
+ */
 require_once 'HTTP/Session2/Container.php';
+
+/**
+ * HTTP/Session2/Exception.php
+ */
+require_once 'HTTP/Session2/Exception.php';
+
+/**
+ * DB.php
+ * @ignore
+ */
 require_once 'DB.php';
-require_once 'PEAR/Exception.php';
 
 /**
  * Database container for session data
@@ -51,9 +73,12 @@ require_once 'PEAR/Exception.php';
  * );
  * </code>
  *
- * @author  Alexander Radivanovich <info@wwwlab.net>
- * @package HTTP_Session
- * @access  public
+ * @category HTTP
+ * @package  HTTP_Session2
+ * @author   Alexander Radivanovich <info@wwwlab.net>
+ * @license  http://www.php.net/license/3_01.txt The PHP License
+ * @version  Release: @package_version@
+ * @link     http://pear.php.net/package/HTTP_Session2
  */
 class HTTP_Session2_Container_DB extends HTTP_Session2_Container
 {
@@ -62,7 +87,6 @@ class HTTP_Session2_Container_DB extends HTTP_Session2_Container
      * DB connection object
      *
      * @var object DB
-     * @access private
      */
     private $db = null;
 
@@ -70,7 +94,6 @@ class HTTP_Session2_Container_DB extends HTTP_Session2_Container
      * Session data cache id
      *
      * @var mixed
-     * @access private
      */
     private $crc = false;
 
@@ -86,31 +109,30 @@ class HTTP_Session2_Container_DB extends HTTP_Session2_Container
      * the table on garbage collection, default is 'false'.</li>
      * </ul>
      *
-     * @access public
-     * @param  array  $options The options
+     * @param array $options The options
+     *
      * @return void
      */
     public function __construct($options)
     {
         parent::__construct();
         
-	$this->options['table'] = $options['table'];
-	$this->options['dsn']   = sprintf(
-            '%s://%s:%s@%s/%s',
+        $this->options['table'] = $options['table'];
+        $this->options['dsn']   = sprintf('%s://%s:%s@%s/%s',
             $options['dsn']['phptype'],
             $options['dsn']['username'],
             $options['dsn']['password'],
             $options['dsn']['hostspec'],
-            $options['dsn']['database']
-        );
+            $options['dsn']['database']);
     }
 
     /**
      * Connect to database by using the given DSN string
      *
-     * @access private
-     * @param  string DSN string
-     * @return mixed  Object on error, otherwise bool
+     * @param string $dsn DSN string
+     *
+     * @return boolean
+     * @throws HTTP_Session2_Exception An exception?!
      */
     private function connect($dsn)
     {
@@ -118,19 +140,16 @@ class HTTP_Session2_Container_DB extends HTTP_Session2_Container
             $this->db = DB::connect($dsn);
         } else if (is_object($dsn) && is_a($dsn, 'db_common')) {
             $this->db = $dsn;
-        } else if (is_object($dsn) && DB::isError($dsn)) {
-            return new DB_Error($dsn->code, PEAR_ERROR_DIE);
+        } else if (DB::isError($dsn)) {
+            throw new HTTP_Session2_Exception($dsn->getMessage(), $dsn->getCode());
         } else {
-            return new PEAR_Error(
-                "The given dsn was not valid in file " . __FILE__ . " at line " . __LINE__,
-                41,
-                PEAR_ERROR_RETURN,
-                null,
-                null
-            );
+            $msg  = "The given dsn was not valid in file ";
+            $msg .= __FILE__ . " at line " . __LINE__;
+            throw new HTTP_Session2_Exception($msg);
         }
         if (DB::isError($this->db)) {
-            return new DB_Error($this->db->code, PEAR_ERROR_DIE);
+            throw new HTTP_Session2_Exception($this->db->getMessage(),
+                $this->db->getCode());
         }
         return true;
     }
@@ -138,7 +157,7 @@ class HTTP_Session2_Container_DB extends HTTP_Session2_Container
     /**
      * Set some default options
      *
-     * @access private
+     * @return void
      */
     private function setDefaults()
     {
@@ -150,19 +169,22 @@ class HTTP_Session2_Container_DB extends HTTP_Session2_Container
     /**
      * Establish connection to a database
      *
+     * @param string $save_path    The path to save/write sessions.
+     * @param string $session_name The session name.
+     *
+     * @return boolean
+     * @uses   self::connect();
+     * @uses   self::$options
      */
     public function open($save_path, $session_name)
     {
-        if (DB::isError($this->connect($this->options['dsn']))) {
-    	    return false;
-        } else {
-            return true;
-        }
+        return $this->connect($this->options['dsn']);
     }
 
     /**
      * Free resources
      *
+     * @return boolean
      */
     public function close()
     {
@@ -172,14 +194,22 @@ class HTTP_Session2_Container_DB extends HTTP_Session2_Container
     /**
      * Read session data
      *
+     * @param string $id The Id!
+     *
+     * @return mixed
+     * @throws HTTP_Session2_Exception An exception!?
      */
     public function read($id)
     {
-        $query = sprintf("SELECT data FROM %s WHERE id = %s AND expiry >= %d",$this->options['table'],$this->db->quote(md5($id)),time());
+        $query = sprintf("SELECT data FROM %s WHERE id = %s AND expiry >= %d",
+            $this->options['table'],
+            $this->db->quote(md5($id)),
+            time());
+
         $result = $this->db->getOne($query);
         if (DB::isError($result)) {
-            new DB_Error($result->code, PEAR_ERROR_DIE);
-            return false;
+            throw new HTTP_Session2_Exception($result->getMessage(),
+                $result->getCode());
         }
         $this->crc = strlen($result) . crc32($result);
         return $result;
@@ -188,45 +218,52 @@ class HTTP_Session2_Container_DB extends HTTP_Session2_Container
     /**
      * Write session data
      *
+     * @param string $id   The id.
+     * @param string $data The data.
+     *
+     * @return boolean
+     * @todo   Remove sprintf(), they are expensive.
      */
     public function write($id, $data)
     {
-        if ((false !== $this->crc) && ($this->crc === strlen($data) . crc32($data))) {
-            // $_SESSION hasn't been touched, no need to update the blob column
-            $query = sprintf("UPDATE %s SET expiry = %d WHERE id = %s AND expiry >= %d",
-                             $this->options['table'],
-                             time() + ini_get('session.gc_maxlifetime'),
-                             $this->db->quote(md5($id)),
-                             time()
-                             );
+        if ((false !== $this->crc)
+            && ($this->crc === strlen($data) . crc32($data))) {
+            /* $_SESSION hasn't been touched, no need to update the blob column */
+            $query = "UPDATE %s SET expiry = %d WHERE id = %s AND expiry >= %d";
+            $query = sprintf($query,
+                $this->options['table'],
+                time() + ini_get('session.gc_maxlifetime'),
+                $this->db->quote(md5($id)),
+                time());
         } else {
-            // Check if table row already exists
+            /* Check if table row already exists */
             $query = sprintf("SELECT COUNT(id) FROM %s WHERE id = '%s'",
-                             $this->options['table'],
-                             md5($id)
-                             );
+                $this->options['table'],
+                md5($id));
+
             $result = $this->db->getOne($query);
             if (DB::isError($result)) {
                 new DB_Error($result->code, PEAR_ERROR_DIE);
                 return false;
             }
             if (0 == intval($result)) {
-                // Insert new row into table
-                $query = sprintf("INSERT INTO %s (id, expiry, data) VALUES (%s, %d, %s)",
-                                 $this->options['table'],
-                                 $this->db->quote(md5($id)),
-                                 time() + ini_get('session.gc_maxlifetime'),
-                                 $this->db->quote($data)
-                                 );
+                /* Insert new row into table */
+                $query = "INSERT INTO %s (id, expiry, data) VALUES (%s, %d, %s)";
+                $query = sprintf($query,
+                    $this->options['table'],
+                    $this->db->quote(md5($id)),
+                    time() + ini_get('session.gc_maxlifetime'),
+                    $this->db->quote($data));
             } else {
-                // Update existing row
-                $query = sprintf("UPDATE %s SET expiry = %d, data = %s WHERE id = %s AND expiry >= %d",
-                                 $this->options['table'],
-                                 time() + ini_get('session.gc_maxlifetime'),
-                                 $this->db->quote($data),
-                                 $this->db->quote(md5($id)),
-                                 time()
-                                 );
+                /* Update existing row */
+                $query  = "UPDATE %s SET expiry = %d, data = %s";
+                $query .= " WHERE id = %s AND expiry >= %d";
+                $query  = sprintf($query,
+                    $this->options['table'],
+                    time() + ini_get('session.gc_maxlifetime'),
+                    $this->db->quote($data),
+                    $this->db->quote(md5($id)),
+                    time());
             }
         }
         $result = $this->db->query($query);
@@ -234,55 +271,61 @@ class HTTP_Session2_Container_DB extends HTTP_Session2_Container
             new DB_Error($result->code, PEAR_ERROR_DIE);
             return false;
         }
-
         return true;
     }
 
     /**
      * Destroy session data
      *
+     * @param string $id The id.
+     *
+     * @return boolean
      */
     public function destroy($id)
     {
         $query = sprintf("DELETE FROM %s WHERE id = %s",
-                         $this->options['table'],
-                         $this->db->quote(md5($id))
-                         );
+            $this->options['table'],
+            $this->db->quote(md5($id)));
+
         $result = $this->db->query($query);
         if (DB::isError($result)) {
             new DB_Error($result->code, PEAR_ERROR_DIE);
             return false;
         }
-
         return true;
     }
 
     /**
      * Garbage collection
      *
+     * @param int $maxlifetime The session's maximum lifetime.
+     *
+     * @return boolean
+     * @todo   Find out why the DB is not used for garbage collection.
      */
     public function gc($maxlifetime)
     {
         $query = sprintf("DELETE FROM %s WHERE expiry < %d",
-                         $this->options['table'],
-                         time()
-                         );
+            $this->options['table'],
+            time());
+
         $result = $this->db->query($query);
         if (DB::isError($result)) {
             new DB_Error($result->code, PEAR_ERROR_DIE);
             return false;
         }
+
         if ($this->options['autooptimize']) {
             switch($this->db->type) {
-                case 'mysql':
-                    $query = sprintf("OPTIMIZE TABLE %s", $this->options['table']);
-                    break;
-                case 'pgsql':
-                    $query = sprintf("VACUUM %s", $this->options['table']);
-                    break;
-                default:
-                    $query = null;
-                    break;
+            case 'mysql':
+                $query = sprintf("OPTIMIZE TABLE %s", $this->options['table']);
+                break;
+            case 'pgsql':
+                $query = sprintf("VACUUM %s", $this->options['table']);
+                break;
+            default:
+                $query = null;
+                break;
             }
             if (isset($query)) {
                 $result = $this->db->query($query);
@@ -292,7 +335,6 @@ class HTTP_Session2_Container_DB extends HTTP_Session2_Container
                 }
             }
         }
-
         return true;
     }
 }

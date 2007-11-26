@@ -39,8 +39,8 @@
  * @package  HTTP_Session2
  * @author   Alexander Radivaniovich <info@wwwlab.net>
  * @author   Tony Bibbs <tony@geeklog.net>
- * @license
- * @version  Release: 0.2.0
+ * @license  http://www.php.net/license/3_01.txt The PHP License
+ * @version  CVS: $Id$
  * @link     http://pear.php.net/package/HTTP_Session2
  */
 
@@ -104,8 +104,8 @@ require_once 'PEAR/Exception.php';
  * @package  HTTP_Session2
  * @author   Alexander Radivaniovich <info@wwwlab.net>
  * @author   Tony Bibbs <tony@geeklog.net>
- * @license
- * @version  Release: 0.2.0
+ * @license  http://www.php.net/license/3_01.txt The PHP License
+ * @version  Release: @package_version@
  * @link     http://pear.php.net/package/HTTP_Session2
  */
 class HTTP_Session2
@@ -591,7 +591,10 @@ class HTTP_Session2
      */
     static function localName($name = null)
     {
-        $return = (isset($GLOBALS['__HTTP_Session2_Localname'])) ? $GLOBALS['__HTTP_Session2_Localname'] : '';
+        $return = '';
+        if (isset($GLOBALS['__HTTP_Session2_Localname'])) {
+            $return .= $GLOBALS['__HTTP_Session2_Localname'];
+        }
         if (!empty($name)) {
             $GLOBALS['__HTTP_Session2_Localname'] = $name;
         }

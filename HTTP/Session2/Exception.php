@@ -57,7 +57,7 @@ require_once 'PEAR/Exception.php';
  * @package  HTTP_Session2
  * @author   Till Klampaeckel <till@php.net>
  * @license  http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version  CVS: $Id$
+ * @version  Release: @package_version@
  * @link     http://pear.php.net/package/HTTP_Session2
  */
 class HTTP_Session2_Exception extends PEAR_Exception

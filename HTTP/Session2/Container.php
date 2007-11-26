@@ -58,7 +58,7 @@ require_once 'HTTP/Session2/ContainerInterface.php';
  * @author   Alexander Radivaniovich <info@wwwlab.net>
  * @author   Tony Bibbs <tony@geeklog.net>
  * @license  http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version  CVS: $Id$
+ * @version  Release: @package_version@
  * @link     http://pear.php.net/package/HTTP_Session2
  */
 abstract class HTTP_Session2_Container implements HTTP_Session2_Container_Interface
