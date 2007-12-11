@@ -421,16 +421,22 @@ class HTTP_Session2
     }
 
     /**
-     * If optional parameter is specified it indicates
-     * whether the module will use cookies to store
-     * the session id on the client side
+     * If optional parameter is specified it indicates whether the module will
+     * use cookies to store the session id on the client side in a cookie.
      *
-     * It returns the previous value of this property
+     * By default this cookie will be deleted when the browser is closed!
+     *
+     * It will throw an Exception if it's not able to set the session.use_cookie
+     * property.
+     *
+     * It returns the previous value of this property.
      *
      * @param boolean $useCookies If specified it will replace the previous value
      *                            of this property
      *
      * @return boolean The previous value of the property
+     * @throws HTTP_Session2_Exception If ini_set fails!
+     * @see    session_set_cookie_params()
      */
     public static function useCookies($useCookies = null)
     {
