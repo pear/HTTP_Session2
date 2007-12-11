@@ -63,11 +63,11 @@ require_once 'PEAR/Exception.php';
  *
  * <code>
  * // Setting some options and detecting of a new session
- * HTTP_Session::setCookieless(false);
- * HTTP_Session::start('MySessionID');
- * HTTP_Session::set('variable', 'Tet string');
- * if (HTTP_Session::isNew()) {
- *     echo('new session was created with the current request');
+ * HTTP_Session2::useCookies(false);
+ * HTTP_Session2::start('MySessionID');
+ * HTTP_Session2::set('variable', 'The string');
+ * if (HTTP_Session2::isNew()) {
+ *     echo 'new session was created with the current request';
  *     $visitors++; // Increase visitors count
  * }
  * </code>
@@ -76,28 +76,28 @@ require_once 'PEAR/Exception.php';
  *
  * <code>
  * // Using database container
- * HTTP_Session::setContainer('DB');
- * HTTP_Session::start();
+ * HTTP_Session2::setContainer('DB');
+ * HTTP_Session2::start();
  * </code>
  *
  * Example 3:
  *
  * <code>
  * // Setting timeouts
- * HTTP_Session::start();
- * HTTP_Session::setExpire(time() + 60 * 60); // expires in one hour
- * HTTP_Session::setIdle(10 * 60);            // idles in ten minutes
- * if (HTTP_Session::isExpired()) {
+ * HTTP_Session2::start();
+ * HTTP_Session2::setExpire(time() + 60 * 60); // expires in one hour
+ * HTTP_Session2::setIdle(10 * 60);            // idles in ten minutes
+ * if (HTTP_Session2::isExpired()) {
  *     // expired
  *     echo('Your session is expired!');
- *     HTTP_Session::destroy();
+ *     HTTP_Session2::destroy();
  * }
- * if (HTTP_Session::isIdle()) {
+ * if (HTTP_Session2::isIdle()) {
  *     // idle
  *     echo('You've been idle for too long!');
- *     HTTP_Session::destroy();
+ *     HTTP_Session2::destroy();
  * }
- * HTTP_Session::updateIdle();
+ * HTTP_Session2::updateIdle();
  * </code>
  *
  * @category HTTP
@@ -191,7 +191,7 @@ class HTTP_Session2
      * Writes session data and ends session
      *
      * Session data is usually stored after your script
-     * terminated without the need to call HTTP_Session::stop(),
+     * terminated without the need to call HTTP_Session2::stop(),
      * but as session data is locked to prevent concurrent
      * writes only one script may operate on a session at any time.
      * When using framesets together with sessions you will
@@ -360,7 +360,7 @@ class HTTP_Session2
     /**
      * Check if session is expired
      *
-     * @return boolean Obvious
+     * @return boolean
      */
     public static function isExpired()
     {
@@ -443,10 +443,11 @@ class HTTP_Session2
      * was created with the current request
      *
      * You MUST call this method only after you have started
-     * the session with the HTTP_Session::start() method.
+     * the session with the HTTP_Session2::start() method.
      *
      * @return boolean true if the session was created
      *                 with the current request, false otherwise
+     * @see    self::start()
      */
     public static function isNew()
     {
