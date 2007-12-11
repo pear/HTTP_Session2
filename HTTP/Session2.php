@@ -120,6 +120,16 @@ class HTTP_Session2
      */
     const CONTINUED = 2;
 
+    /**
+     * @const ERR_UNKNOWN_CONTAINER - Container not found.
+     */
+    const ERR_UNKNOWN_CONTAINER = 667;
+
+    /**
+     * @const ERR_SYSTEM_PERM - System permissions not sufficient.
+     *        E.g. Not enough permissions to override ini-settings.
+     */
+    const ERR_SYSTEM_PERM = 668;
 
     /**
      * Sets user-defined session storage functions
@@ -143,9 +153,9 @@ class HTTP_Session2
 
         include_once $container_classfile;
         if (!class_exists($container_class)) {
-            throw new PEAR_Exception(
-                "Container class, $container_class, does not exist"
-            );
+            throw new HTTP_Session2_Exception(
+                "Container class, $container_class, does not exist",
+                self::ERR_UNKNOWN_CONTAINER);
         }
         $container = new $container_class($container_options);
 
@@ -425,14 +435,19 @@ class HTTP_Session2
     public static function useCookies($useCookies = null)
     {
         $return = false;
-        if (ini_get('session.use_cookies')) {
+        if (ini_get('session.use_cookies') == '1') {
             $return = true;
         }
         if ($useCookies != null) {
             if ($useCookies) {
-                ini_set('session.use_cookies', 1);
+                $status = ini_set('session.use_cookies', 1);
             } else {
-                ini_set('session.use_cookies', 0);
+                $status = ini_set('session.use_cookies', 0);
+            }
+            if ($status === false) {
+                throw new HTTP_Session2_Exception(
+                    'Could not set session.use_cookies, please check permissions.',
+                    self::ERR_SYSTEM_PERM);
             }
         }
         return $return;
