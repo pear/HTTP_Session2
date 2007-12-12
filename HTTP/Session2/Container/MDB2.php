@@ -302,16 +302,18 @@ class HTTP_Session2_Container_MDB2 extends HTTP_Session2_Container
             switch($this->db->phptype) {
             case 'mysql':
             case 'mysqli':
-                $query = sprintf("OPTIMIZE TABLE %s", $this->options['table']);
+                $query = sprintf('OPTIMIZE TABLE %s',
+                    $this->db->quoteIdentifier($this->options['table']));
                 break;
             case 'pgsql':
-                $query = sprintf("VACUUM %s", $this->options['table']);
+                $query = sprintf('VACUUM %s',
+                    $this->db->quoteIdentifier($this->options['table']));
                 break;
             default:
                 $query = null;
                 break;
             }
-            if (isset($query)) {
+            if ($query !== null) {
                 $result = $this->db->query($query);
                 if (MDB2::isError($result)) {
                     throw new HTTP_Session2_Exception($result->getMessage(),
