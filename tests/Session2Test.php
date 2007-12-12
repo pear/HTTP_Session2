@@ -19,11 +19,11 @@ require_once 'PHPUnit2/Framework/TestCase.php';
 require_once 'HTTP/Session2.php';
 
 /**
- * @author      Tony Bibbs <tony@geeklog.net>
- * @copyright   Copyright &copy; 2005 Tony Bibbs <tony@geeklog.net>
- * @license     http://www.php.net/license/3_0.txt The PHP License, Version 3.0
- * @category    HTTP
- * @package     HTTP_Session2
+ * @author    Tony Bibbs <tony@geeklog.net>
+ * @copyright Copyright &copy; 2005 Tony Bibbs <tony@geeklog.net>
+ * @license   http://www.opensource.org/licenses/bsd-license.php The BSD License
+ * @category  HTTP
+ * @package   HTTP_Session2
  */
 class HTTP_Session2_Tests_Session2Test extends PHPUnit2_Framework_TestCase
 {

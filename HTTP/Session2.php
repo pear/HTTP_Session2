@@ -39,7 +39,7 @@
  * @package  HTTP_Session2
  * @author   Alexander Radivaniovich <info@wwwlab.net>
  * @author   Tony Bibbs <tony@geeklog.net>
- * @license  http://www.php.net/license/3_01.txt The PHP License
+ * @license  http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version  CVS: $Id$
  * @link     http://pear.php.net/package/HTTP_Session2
  */
@@ -104,7 +104,7 @@ require_once 'PEAR/Exception.php';
  * @package  HTTP_Session2
  * @author   Alexander Radivaniovich <info@wwwlab.net>
  * @author   Tony Bibbs <tony@geeklog.net>
- * @license  http://www.php.net/license/3_01.txt The PHP License
+ * @license  http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version  Release: @package_version@
  * @link     http://pear.php.net/package/HTTP_Session2
  */

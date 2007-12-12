@@ -27,7 +27,7 @@ require_once 'PHPUnit2/Tests/Session2Test.php';
 /**
  * @author      Tony Bibbs <tony@geeklog.net>
  * @copyright   Copyright &copy; 2005 Tony Bibbs
- * @license     http://www.php.net/license/3_0.txt The PHP License, Version 3.0
+ * @license     http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @category    HTTP
  * @package     HTTP_Session2
  */

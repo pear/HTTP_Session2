@@ -45,7 +45,7 @@ require_once 'MDB2.php';
  * @category HTTP
  * @package  HTTP_Session2
  * @author   Alexander Radivanovich <info@wwwlab.net>
- * @license  http://www.php.net/license/3_01.txt The PHP License
+ * @license  http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version  Release: @package_version@
  * @link     http://pear.php.net/package/HTTP_Session2
  * @uses     MDB2
