@@ -8,7 +8,7 @@ http://pear.php.net/dtd/package-2.0.xsd">
  <summary>PHP5 Session Handler</summary>
  <description>PHP5 Object-oriented interface to the session_* family functions it 
                     provides extra features such as database storage for session data using DB 
-                    package. Supported containers are Creole, PEAR::DB and PEAR::MDB. It introduces 
+                    package. Supported containers are PEAR::DB and PEAR::MDB2. It introduces 
                     new methods like isNew(), useCookies(), setExpire(), setIdle(), isExpired(), 
                     isIdled() and others.
         
@@ -25,18 +25,23 @@ http://pear.php.net/dtd/package-2.0.xsd">
   <email>bate@php.net</email>
   <active>yes</active>
  </developer>
- <date>2007-12-02</date>
- <time>11:30:00</time>
+ <date>2007-12-12</date>
+ <time>23:10:00</time>
  <version>
-  <release>0.6.0</release>
-  <api>0.6.0</api>
+  <release>0.6.1</release>
+  <api>0.6.1</api>
  </version>
  <stability>
   <release>beta</release>
   <api>beta</api>
  </stability>
- <license uri="http://www.php.net/license">PHP License</license>
- <notes>Use at your own risk.</notes>
+ <license uri="http://www.opensource.org/licenses/bsd-license.php">The BSD License</license>
+ <notes>
+  - smaller fixes in phpcs (file names, etc.)
+  - small fixes in MDB2 container
+  - added more documentation inline
+  - changed license to The BSD License
+ </notes>
  <contents>
   <dir name="/">
    <dir name="HTTP">
@@ -50,12 +55,12 @@ http://pear.php.net/dtd/package-2.0.xsd">
        <tasks:replace from="@package_version@" to="version" type="package-info" />
        <tasks:replace from="@data_dir@" to="data_dir" type="pear-config" />
       </file>
+      <file name="Interface.php" role="php">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+       <tasks:replace from="@data_dir@" to="data_dir" type="pear-config" />
+      </file>
      </dir> <!-- //HTTP/Session2/Container -->
      <file name="Container.php" role="php">
-      <tasks:replace from="@package_version@" to="version" type="package-info" />
-      <tasks:replace from="@data_dir@" to="data_dir" type="pear-config" />
-     </file>
-     <file name="ContainerInterface.php" role="php">
       <tasks:replace from="@package_version@" to="version" type="package-info" />
       <tasks:replace from="@data_dir@" to="data_dir" type="pear-config" />
      </file>
@@ -113,7 +118,7 @@ http://pear.php.net/dtd/package-2.0.xsd">
     <api>alpha</api>
    </stability>
    <date>2005-06-08</date>
-   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License</license>
+   <license uri="http://www.php.net/license">PHP License</license>
    <notes>Development snapshot, not for production use.</notes>
   </release>
   <release>
@@ -146,6 +151,24 @@ http://pear.php.net/dtd/package-2.0.xsd">
   - removed Containers for MDB and Creole (too slow and unmaintained anyway)
   - fixed smaller issues/bugs
   - fixed CS
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.6.1</release>
+    <api>0.6.1</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2007-12-12</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">The BSD License</license>
+   <notes>
+  - smaller fixes in phpcs (file names, etc.)
+  - small fixes in MDB2 container
+  - added more documentation inline
+  - changed license to The BSD License
    </notes>
   </release>
  </changelog>
