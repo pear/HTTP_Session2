@@ -45,10 +45,9 @@
  */
 
 /**
- * PEAR::Exception
- * @ignore
+ * HTTP_Session2_Exception
  */
-require_once 'PEAR/Exception.php';
+require_once 'HTTP/Session2/Exception.php';
 
 /**
  * Class for managing HTTP sessions
