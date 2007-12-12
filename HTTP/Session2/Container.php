@@ -48,7 +48,7 @@
 /**
  * HTTP_Session2_Container_Interface
  */
-require_once 'HTTP/Session2/ContainerInterface.php';
+require_once 'HTTP/Session2/Container/Interface.php';
 
 /**
  * Container class for storing session data data
