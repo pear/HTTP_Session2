@@ -103,7 +103,7 @@ class HTTP_Session2_Container_DB extends HTTP_Session2_Container
      * $options is an array with the options.<br>
      * The options are:
      * <ul>
-     * <li>'dsn' - The DSN string</li>
+     * <li>'dsn' - The DSN string or an array</li>
      * <li>'table' - Table with session data, default is 'sessiondata'</li>
      * <li>'autooptimize' - Boolean, 'true' to optimize
      * the table on garbage collection, default is 'false'.</li>
@@ -118,12 +118,16 @@ class HTTP_Session2_Container_DB extends HTTP_Session2_Container
         parent::__construct();
         
         $this->options['table'] = $options['table'];
-        $this->options['dsn']   = sprintf('%s://%s:%s@%s/%s',
-            $options['dsn']['phptype'],
-            $options['dsn']['username'],
-            $options['dsn']['password'],
-            $options['dsn']['hostspec'],
-            $options['dsn']['database']);
+        if (is_array($options['dsn'])) {
+            $this->options['dsn']   = sprintf('%s://%s:%s@%s/%s',
+                $options['dsn']['phptype'],
+                $options['dsn']['username'],
+                $options['dsn']['password'],
+                $options['dsn']['hostspec'],
+                $options['dsn']['database']);
+        } elseif (is_string($options['dsn'])) {
+            $this->options['dsn'] = $options['dsn'];
+        }
     }
 
     /**

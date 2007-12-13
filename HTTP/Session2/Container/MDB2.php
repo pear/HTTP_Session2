@@ -45,6 +45,7 @@ require_once 'MDB2.php';
  * @category HTTP
  * @package  HTTP_Session2
  * @author   Alexander Radivanovich <info@wwwlab.net>
+ * @author   Till Klampaeckel <till@php.net>
  * @license  http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version  Release: @package_version@
  * @link     http://pear.php.net/package/HTTP_Session2
@@ -89,12 +90,16 @@ class HTTP_Session2_Container_MDB2 extends HTTP_Session2_Container
         parent::__construct();
         
         $this->options['table'] = $options['table'];
-        $this->options['dsn']   = sprintf('%s://%s:%s@%s/%s',
-            $options['dsn']['phptype'],
-            $options['dsn']['username'],
-            $options['dsn']['password'],
-            $options['dsn']['hostspec'],
-            $options['dsn']['database']);
+        if (is_array($options['dsn'])) {
+            $this->options['dsn']   = sprintf('%s://%s:%s@%s/%s',
+                $options['dsn']['phptype'],
+                $options['dsn']['username'],
+                $options['dsn']['password'],
+                $options['dsn']['hostspec'],
+                $options['dsn']['database']);
+        } elseif (is_string($options['dsn'])) {
+            $this->options['dsn'] = $options['dsn'];
+        }
     }
 
     /**
