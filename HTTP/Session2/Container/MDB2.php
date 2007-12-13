@@ -75,7 +75,7 @@ class HTTP_Session2_Container_MDB2 extends HTTP_Session2_Container
      * $options is an array with the options.<br>
      * The options are:
      * <ul>
-     * <li>'dsn' - The DSN string</li>
+     * <li>'dsn' - The DSN string or an array</li>
      * <li>'table' - Table with session data, default is 'sessiondata'</li>
      * <li>'autooptimize' - Boolean, 'true' to optimize
      * the table on garbage collection, default is 'false'.</li>
@@ -186,7 +186,7 @@ class HTTP_Session2_Container_MDB2 extends HTTP_Session2_Container
     public function read($id)
     {
         $query = sprintf("SELECT data FROM %s WHERE id = %s AND expiry >= %d",
-            $this->options['table'],
+            $this->db->quoteIdentifier($this->options['table']),
             $this->db->quote(md5($id)),
             time());
 
@@ -206,6 +206,7 @@ class HTTP_Session2_Container_MDB2 extends HTTP_Session2_Container
      * @param string $data The data.
      *
      * @return boolean
+     * @throw  HTTP_Session2_Exception An exception that wraps MDB2_Error.
      * @todo   Remove sprintf(), they are expensive.
      */
     public function write($id, $data)
@@ -215,45 +216,45 @@ class HTTP_Session2_Container_MDB2 extends HTTP_Session2_Container
             /* $_SESSION hasn't been touched, no need to update the blob column */
             $query = "UPDATE %s SET expiry = %d WHERE id = %s AND expiry >= %d";
             $query = sprintf($query,
-                $this->options['table'],
-                time() + ini_get('session.gc_maxlifetime'),
+                $this->db->quoteIdentifier($this->options['table']),
+                $this->db->quote(time() + ini_get('session.gc_maxlifetime'), 'integer'),
                 $this->db->quote(md5($id)),
-                time());
+                $this->db->quote(time(), 'integer');
         } else {
             /* Check if table row already exists */
             $query = sprintf("SELECT COUNT(id) FROM %s WHERE id = '%s'",
-                $this->options['table'],
-                md5($id));
+                $this->db->quoteIdentifier($this->options['table']),
+                $this->db->quote(md5($id)));
 
             $result = $this->db->queryOne($query);
             if (MDB2::isError($result)) {
-                new DB_Error($result->code, PEAR_ERROR_DIE);
-                return false;
+                throw new HTTP_Session2_Exception($result->getMessage(),
+                    $result->getCode());
             }
             if (0 == intval($result)) {
                 /* Insert new row into table */
                 $query = "INSERT INTO %s (id, expiry, data) VALUES (%s, %d, %s)";
                 $query = sprintf($query,
-                    $this->options['table'],
+                    $this->db->quoteIdentifier($this->options['table']),
                     $this->db->quote(md5($id)),
-                    time() + ini_get('session.gc_maxlifetime'),
+                    $this->db->quote(time() + ini_get('session.gc_maxlifetime'), 'integer'),
                     $this->db->quote($data));
             } else {
                 /* Update existing row */
                 $query  = "UPDATE %s SET expiry = %d, data = %s";
                 $query .= " WHERE id = %s AND expiry >= %d";
                 $query  = sprintf($query,
-                    $this->options['table'],
-                    time() + ini_get('session.gc_maxlifetime'),
+                    $this->db->quoteIdentifier($this->options['table']),
+                    $this->db->quote(time() + ini_get('session.gc_maxlifetime'), 'integer'),
                     $this->db->quote($data),
                     $this->db->quote(md5($id)),
-                    time());
+                    $this->db->quote(time(), 'integer'));
             }
         }
         $result = $this->db->query($query);
         if (MDB2::isError($result)) {
-            new DB_Error($result->code, PEAR_ERROR_DIE);
-            return false;
+            throw new HTTP_Session2_Exception($result->getMessage(),
+                $result->getCode());
         }
         return true;
     }
@@ -269,7 +270,7 @@ class HTTP_Session2_Container_MDB2 extends HTTP_Session2_Container
     public function destroy($id)
     {
         $query = sprintf("DELETE FROM %s WHERE id = %s",
-            $this->options['table'],
+            $this->db->quoteIdentifier($this->options['table']),
             $this->db->quote(md5($id)));
 
         $result = $this->db->query($query);
@@ -294,8 +295,8 @@ class HTTP_Session2_Container_MDB2 extends HTTP_Session2_Container
     public function gc($maxlifetime)
     {
         $query = sprintf("DELETE FROM %s WHERE expiry < %d",
-            $this->options['table'],
-            time());
+            $this->db->quoteIdentifier($this->options['table']),
+            $this->db->quote(time(), 'integer'));
 
         $result = $this->db->query($query);
         if (MDB2::isError($result)) {
