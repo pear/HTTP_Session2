@@ -219,7 +219,7 @@ class HTTP_Session2_Container_MDB2 extends HTTP_Session2_Container
                 $this->db->quoteIdentifier($this->options['table']),
                 $this->db->quote(time() + ini_get('session.gc_maxlifetime'), 'integer'),
                 $this->db->quote(md5($id)),
-                $this->db->quote(time(), 'integer');
+                $this->db->quote(time(), 'integer'));
         } else {
             /* Check if table row already exists */
             $query = sprintf("SELECT COUNT(id) FROM %s WHERE id = '%s'",
