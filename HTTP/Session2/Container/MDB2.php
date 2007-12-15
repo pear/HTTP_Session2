@@ -91,7 +91,7 @@ class HTTP_Session2_Container_MDB2 extends HTTP_Session2_Container
         
         $this->options['table'] = $options['table'];
         if (is_array($options['dsn'])) {
-            $this->options['dsn']   = sprintf('%s://%s:%s@%s/%s',
+            $this->options['dsn'] = sprintf('%s://%s:%s@%s/%s',
                 $options['dsn']['phptype'],
                 $options['dsn']['username'],
                 $options['dsn']['password'],
@@ -217,7 +217,8 @@ class HTTP_Session2_Container_MDB2 extends HTTP_Session2_Container
             $query = "UPDATE %s SET expiry = %d WHERE id = %s AND expiry >= %d";
             $query = sprintf($query,
                 $this->db->quoteIdentifier($this->options['table']),
-                $this->db->quote(time() + ini_get('session.gc_maxlifetime'), 'integer'),
+                $this->db->quote(time() + ini_get('session.gc_maxlifetime'),
+                    'integer'),
                 $this->db->quote(md5($id)),
                 $this->db->quote(time(), 'integer'));
         } else {
@@ -237,7 +238,8 @@ class HTTP_Session2_Container_MDB2 extends HTTP_Session2_Container
                 $query = sprintf($query,
                     $this->db->quoteIdentifier($this->options['table']),
                     $this->db->quote(md5($id)),
-                    $this->db->quote(time() + ini_get('session.gc_maxlifetime'), 'integer'),
+                    $this->db->quote(time() + ini_get('session.gc_maxlifetime'),
+                        'integer'),
                     $this->db->quote($data));
             } else {
                 /* Update existing row */
@@ -245,7 +247,8 @@ class HTTP_Session2_Container_MDB2 extends HTTP_Session2_Container
                 $query .= " WHERE id = %s AND expiry >= %d";
                 $query  = sprintf($query,
                     $this->db->quoteIdentifier($this->options['table']),
-                    $this->db->quote(time() + ini_get('session.gc_maxlifetime'), 'integer'),
+                    $this->db->quote(time() + ini_get('session.gc_maxlifetime'),
+                        'integer'),
                     $this->db->quote($data),
                     $this->db->quote(md5($id)),
                     $this->db->quote(time(), 'integer'));

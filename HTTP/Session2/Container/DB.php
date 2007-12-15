@@ -119,7 +119,7 @@ class HTTP_Session2_Container_DB extends HTTP_Session2_Container
         
         $this->options['table'] = $options['table'];
         if (is_array($options['dsn'])) {
-            $this->options['dsn']   = sprintf('%s://%s:%s@%s/%s',
+            $this->options['dsn'] = sprintf('%s://%s:%s@%s/%s',
                 $options['dsn']['phptype'],
                 $options['dsn']['username'],
                 $options['dsn']['password'],
