@@ -67,9 +67,8 @@ abstract class HTTP_Session2_Container implements HTTP_Session2_Container_Interf
      * Additional options for the container object
      *
      * @var array
-     * @access private
      */
-    private $options = array();
+    protected $options = array();
 
     /**
      * Constrtuctor method
@@ -82,7 +81,7 @@ abstract class HTTP_Session2_Container implements HTTP_Session2_Container_Interf
     {
         $this->setDefaults();
         if (is_array($options)) {
-            $this->parseOptions();
+            $this->parseOptions($options);
         }
     }
 
@@ -91,7 +90,7 @@ abstract class HTTP_Session2_Container implements HTTP_Session2_Container_Interf
      *
      * @return void
      */
-    private function setDefaults()
+    protected function setDefaults()
     {
     }
 
@@ -109,7 +108,6 @@ abstract class HTTP_Session2_Container implements HTTP_Session2_Container_Interf
                 $this->options[$option] = $value;
             }
         }
-        //print_r($this->options); exit;
     }
 
     /**
