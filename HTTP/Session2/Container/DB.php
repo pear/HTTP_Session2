@@ -51,6 +51,8 @@ require_once 'HTTP/Session2/Container.php';
 
 /**
  * HTTP/Session2/Exception.php
+ * 
+ * @todo Implement HTTP_Session2_Containter_DB_Exception
  */
 require_once 'HTTP/Session2/Exception.php';
 
@@ -103,7 +105,7 @@ class HTTP_Session2_Container_DB extends HTTP_Session2_Container
      * $options is an array with the options.<br>
      * The options are:
      * <ul>
-     * <li>'dsn' - The DSN string or an array</li>
+     * <li>'dsn' - The DSN string</li>
      * <li>'table' - Table with session data, default is 'sessiondata'</li>
      * <li>'autooptimize' - Boolean, 'true' to optimize
      * the table on garbage collection, default is 'false'.</li>
@@ -115,19 +117,7 @@ class HTTP_Session2_Container_DB extends HTTP_Session2_Container
      */
     public function __construct($options)
     {
-        parent::__construct();
-        
-        $this->options['table'] = $options['table'];
-        if (is_array($options['dsn'])) {
-            $this->options['dsn'] = sprintf('%s://%s:%s@%s/%s',
-                $options['dsn']['phptype'],
-                $options['dsn']['username'],
-                $options['dsn']['password'],
-                $options['dsn']['hostspec'],
-                $options['dsn']['database']);
-        } elseif (is_string($options['dsn'])) {
-            $this->options['dsn'] = $options['dsn'];
-        }
+        parent::__construct($options);
     }
 
     /**
@@ -341,5 +331,53 @@ class HTTP_Session2_Container_DB extends HTTP_Session2_Container
         }
         return true;
     }
-}
 
+    /**
+     * Replicate session data to specified target
+     *
+     * @param string $target Target to replicate to
+     * @param string $id     Id of record to replicate,
+     *                       if not specified current session id will be used
+     *
+     * @return boolean
+     */
+    public function replicate($target, $id = null)
+    {
+        if (is_null($id)) {
+            $id = HTTP_Session2::id();
+        }
+
+        // Check if table row already exists
+        $query = sprintf("SELECT COUNT(id) FROM %s WHERE id = %s",
+            $target,
+            $this->db->quoteSmart(md5($id)));
+        $result = $this->db->getOne($query);
+        if (DB::isError($result)) {
+            new DB_Error($result->code, PEAR_ERROR_DIE);
+            return false;
+        }
+
+        // Insert new row into target table
+        if (0 == intval($result)) {
+            $query = sprintf("INSERT INTO %s SELECT * FROM %s WHERE id = %s",
+                $target,
+                $this->options['table'],
+                $this->db->quoteSmart(md5($id)));
+
+        } else {
+            // Update existing row
+            $query = sprintf("UPDATE %s dst, %s src SET dst.expiry = src.expiry, dst.data = src.data WHERE dst.id = src.id AND src.id = %s",
+                $target,
+                $this->options['table'],
+                $this->db->quoteSmart(md5($id)));
+        }
+
+        $result = $this->db->query($query);
+        if (DB::isError($result)) {
+            new DB_Error($result->code, PEAR_ERROR_DIE);
+            return false;
+        }
+
+        return true;
+    }
+}
