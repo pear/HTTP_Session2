@@ -69,6 +69,8 @@ require_once 'HTTP/Session2/Exception.php';
  *     echo 'new session was created with the current request';
  *     $visitors++; // Increase visitors count
  * }
+ *
+ * //HTTP_Session2::regenerateId();
  * </code>
  *
  * Example 2:
@@ -131,6 +133,11 @@ class HTTP_Session2
     const ERR_SYSTEM_PERM = 668;
 
     /**
+     * Container instance
+     */
+    public static $container;
+
+    /**
      * Sets user-defined session storage functions
      *
      * Sets the user-defined session storage functions which are used
@@ -156,9 +163,9 @@ class HTTP_Session2
                 "Container class, $container_class, does not exist",
                 self::ERR_UNKNOWN_CONTAINER);
         }
-        $container = new $container_class($container_options);
+        self::$container = new $container_class($container_options);
 
-        $container->set();
+        self::$container->set();
     }
 
     /**
@@ -570,7 +577,7 @@ class HTTP_Session2
      * @param string $name  Name of a local variable
      * @param mixed  $value Value of a local variable
      *
-     * @return mixed  Old value of a local variable
+     * @return mixed Old value of a local variable
      */
     static function setLocal($name, $value)
     {
@@ -635,8 +642,95 @@ class HTTP_Session2
         // Set local name equal to the current script name
         self::localName($_SERVER['SCRIPT_NAME']);
     }
+
+    /**
+     * Regenrates session id
+     *
+     * If session_regenerate_id() is not available emulates its functionality
+     *
+     * @param boolean $deleteOldSessionData Whether to delete data of old session
+     *
+     * @return boolean
+     */
+    public static function regenerateId($deleteOldSessionData = false)
+    {
+        if (function_exists('session_regenerate_id')) {
+            return session_regenerate_id($deleteOldSessionData);
+
+            // emulate session_regenerate_id()
+        } else {
+
+            do {
+                $newId = uniqid(dechex(rand()));
+            } while ($newId === session_id());
+
+            if ($deleteOldSessionData) {
+                session_unset();
+            }
+
+            session_id($newId);
+
+            return true;
+        }
+    }
+
+    /**
+     * This function copies session data of specified id to specified table
+     *
+     * @param string $target Target to replicate to
+     * @param string $id     Id of record to replicate
+     *
+     * @return boolean
+     */
+    public static function replicate($target, $id = null)
+    {
+        return self::$container->replicate($target, $id);
+    }
+
+    /**
+     * If optional parameter is specified it determines the number of seconds
+     * after which session data will be seen as 'garbage' and cleaned up
+     *
+     * It returns the previous value of this property
+     *
+     * @param boolean $gcMaxLifetime If specified it will replace the previous value
+     *                               of this property
+     *
+     * @return boolean The previous value of the property
+     */
+    public static function setGcMaxLifetime($gcMaxLifetime = null)
+    {
+        $return = ini_get('session.gc_maxlifetime');
+        if (isset($gcMaxLifetime) && is_int($gcMaxLifetime) && $gcMaxLifetime >= 1) {
+            ini_set('session.gc_maxlifetime', $gcMaxLifetime);
+        }
+        return $return;
+    }
+
+    /**
+     * If optional parameter is specified it determines the
+     * probability that the gc (garbage collection) routine is started
+     * and session data is cleaned up
+     *
+     * It returns the previous value of this property
+     *
+     * @param boolean $gcProbability If specified it will replace the previous value
+     *                               of this property
+     *
+     * @return boolean The previous value of the property
+     */
+    public static function setGcProbability($gcProbability = null)
+    {
+        $return = ini_get('session.gc_probability');
+        if (isset($gcProbability)  &&
+            is_int($gcProbability) &&
+            $gcProbability >= 1    &&
+            $gcProbability <= 100) {
+            ini_set('session.gc_probability', $gcProbability);
+        }
+        return $return;
+    }
 }
 
 HTTP_Session2::init();
-
 ?>
