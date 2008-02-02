@@ -13,7 +13,7 @@
  * | o Redistributions in binary form must reproduce the above copyright   |
  * |   notice, this list of conditions and the following disclaimer in the |
  * |   documentation and/or other materials provided with the distribution.|
- * | o The names of the authors may not be used to endorse or promote      | 
+ * | o The names of the authors may not be used to endorse or promote      |
  * |   products derived from this software without specific prior written  |
  * |   permission.                                                         |
  * |                                                                       |
@@ -108,6 +108,15 @@ interface HTTP_Session2_Container_Interface
      * @return void
      */
     public function gc($maxlifetime);
-}
 
-?>
+    /**
+     * Replicate session data to specified target
+     *
+     * @param string $target Target to replicate to
+     * @param string $id     Id of record to replicate,
+     *                       if not specified current session id will be used
+     *
+     * @return boolean
+     */
+    public function replicate($target, $id = null);
+}
