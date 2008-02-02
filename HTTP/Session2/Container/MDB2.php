@@ -333,8 +333,8 @@ class HTTP_Session2_Container_MDB2 extends HTTP_Session2_Container
 
         // Check if table row already exists
         $query = sprintf("SELECT COUNT(id) FROM %s WHERE id = %s",
-                         $target,
-                         $this->db->quote(md5($id), 'text'));
+            $target,
+            $this->db->quote(md5($id), 'text'));
         $result = $this->db->queryOne($query);
         if (MDB2::isError($result)) {
             $this->db->raiseError($result->code, PEAR_ERROR_DIE);
@@ -344,16 +344,16 @@ class HTTP_Session2_Container_MDB2 extends HTTP_Session2_Container
         // Insert new row into dest table
         if (0 == intval($result)) {
             $query = sprintf("INSERT INTO %s SELECT * FROM %s WHERE id = %s",
-                             $target,
-                             $this->options['table'],
-                             $this->db->quote(md5($id), 'text'));
+                $target,
+                $this->options['table'],
+                $this->db->quote(md5($id), 'text'));
 
         } else {
             // Update existing row
             $query = sprintf("UPDATE %s dst, %s src SET dst.expiry = src.expiry, dst.data = src.data WHERE dst.id = src.id AND src.id = %s",
-                             $target,
-                             $this->options['table'],
-                             $this->db->quote(md5($id), 'text'));
+                $target,
+                $this->options['table'],
+                $this->db->quote(md5($id), 'text'));
         }
 
         $result = $this->db->query($query);
