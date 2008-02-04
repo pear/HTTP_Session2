@@ -86,7 +86,7 @@ class HTTP_Session2_Container_Memcache extends HTTP_Session2_Container
      *
      * @return void
      */
-    private function setDefaults()
+    protected function setDefaults()
     {
         $this->options['prefix']   = 'sessiondata:';
         $this->options['memcache'] = null;

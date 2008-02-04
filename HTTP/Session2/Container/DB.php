@@ -128,7 +128,7 @@ class HTTP_Session2_Container_DB extends HTTP_Session2_Container
      * @return boolean
      * @throws HTTP_Session2_Exception An exception?!
      */
-    private function connect($dsn)
+    protected function connect($dsn)
     {
         if (is_string($dsn)) {
             $this->db = DB::connect($dsn);
@@ -153,7 +153,7 @@ class HTTP_Session2_Container_DB extends HTTP_Session2_Container
      *
      * @return void
      */
-    private function setDefaults()
+    protected function setDefaults()
     {
         $this->options['dsn']          = null;
         $this->options['table']        = 'sessiondata';

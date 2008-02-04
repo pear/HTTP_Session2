@@ -97,7 +97,7 @@ class HTTP_Session2_Container_MDB2 extends HTTP_Session2_Container
      * @return boolean
      * @throws HTTP_Session2_Exception An exception?!
      */
-    private function connect($dsn)
+    protected function connect($dsn)
     {
         // pseudo singleton approach
         if (is_object($this->db)) {
