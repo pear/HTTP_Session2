@@ -25,11 +25,11 @@ http://pear.php.net/dtd/package-2.0.xsd">
   <email>bate@php.net</email>
   <active>yes</active>
  </developer>
- <date>2007-12-12</date>
- <time>23:10:00</time>
+ <date>2008-02-08</date>
+ <time>15:45:00</time>
  <version>
-  <release>0.6.1</release>
-  <api>0.6.1</api>
+  <release>0.7.0</release>
+  <api>0.7.0</api>
  </version>
  <stability>
   <release>beta</release>
@@ -37,10 +37,9 @@ http://pear.php.net/dtd/package-2.0.xsd">
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">The BSD License</license>
  <notes>
-  - smaller fixes in phpcs (file names, etc.)
-  - small fixes in MDB2 container
-  - added more documentation inline
-  - changed license to The BSD License
+- new Memcache container
+- many smaller fixes for the containers (in respect to future drivers)
+(This is a please-help-test-release. :-))
  </notes>
  <contents>
   <dir name="/">
@@ -48,6 +47,10 @@ http://pear.php.net/dtd/package-2.0.xsd">
     <dir name="Session2">
      <dir name="Container">
       <file name="DB.php" role="php">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+       <tasks:replace from="@data_dir@" to="data_dir" type="pear-config" />
+      </file>
+      <file name="Memcache.php" role="php">
        <tasks:replace from="@package_version@" to="version" type="package-info" />
        <tasks:replace from="@data_dir@" to="data_dir" type="pear-config" />
       </file>
@@ -169,6 +172,60 @@ http://pear.php.net/dtd/package-2.0.xsd">
   - small fixes in MDB2 container
   - added more documentation inline
   - changed license to The BSD License
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.6.0</release>
+    <api>0.6.0</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2008-02-08</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+  - Mark beta
+  - added a MDB2 Container
+  - removed Containers for MDB and Creole (too slow and unmaintained anyway)
+  - fixed smaller issues/bugs
+  - fixed CS
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.6.1</release>
+    <api>0.6.1</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2007-12-12</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">The BSD License</license>
+   <notes>
+  - smaller fixes in phpcs (file names, etc.)
+  - small fixes in MDB2 container
+  - added more documentation inline
+  - changed license to The BSD License
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.7.0</release>
+    <api>0.7.0</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2008-02-08</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">The BSD License</license>
+   <notes>
+- new Memcache container
+- many smaller fixes for the containers (in respect to future drivers)
+(This is a please-help-test-release. :-))
    </notes>
   </release>
  </changelog>
