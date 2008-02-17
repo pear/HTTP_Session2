@@ -103,9 +103,9 @@ class HTTP_Session2_Container_MDB2 extends HTTP_Session2_Container
         if (is_object($this->db)) {
             return true;
         }
-        if (is_string($dsn)) {
+        if (is_string($dsn) || is_array($dsn)) {
             $this->db = MDB2::connect($dsn);
-        } else if (is_object($dsn) && is_a($dsn, 'mdb2_driver_common')) {
+        } else if (is_object($dsn) && ($dsn instanceof 'mdb2_driver_common')) {
             $this->db = $dsn;
         } else if (MDB2::isError($dsn)) {
             throw new HTTP_Session2_Exception($dsn->getMessage(), $dsn->getCode());
