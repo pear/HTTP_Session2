@@ -181,8 +181,10 @@ class HTTP_Session2_Container_Memcache extends HTTP_Session2_Container
      */
     public function replicate($target, $id = null)
     {
-        throw new HTTP_Session2_Exception(
-            'The replicate feature is not available yet for the Memcache container.');
+        $msg  = 'The replicate feature is not available yet';
+        $msg .= ' for the Memcache container.';
+
+        throw new HTTP_Session2_Exception($msg);
     }
 }
 ?>
