@@ -126,7 +126,7 @@ class HTTP_Session2_Container_MDB2 extends HTTP_Session2_Container
      *
      * @return void
      */
-    private function setDefaults()
+    protected function setDefaults()
     {
         $this->options['dsn']          = null;
         $this->options['table']        = 'sessiondata';
