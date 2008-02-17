@@ -107,6 +107,11 @@ http://pear.php.net/dtd/package-2.0.xsd">
     <channel>pear.php.net</channel>
     <min>1.7.11</min>
    </package>
+   <package>
+    <name>Memcache</name>
+    <channel>pecl.php.net</channel>
+    <min>2.2.2</min>
+   </package>
   </optional>
  </dependencies>
  <phprelease />
