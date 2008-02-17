@@ -323,10 +323,10 @@ class HTTP_Session2
      */
     public static function setExpire($time, $add = false)
     {
-        if ($add && isset($GLOBALS['__HTTP_Session2_Expire'])) {
-            $GLOBALS['__HTTP_Session2_Expire'] += $time;
+        if ($add && isset($_SESSION['__HTTP_Session2_Expire'])) {
+            $_SESSION['__HTTP_Session2_Expire'] += $time;
         } else {
-            $GLOBALS['__HTTP_Session2_Expire'] = $time;
+            $_SESSION['__HTTP_Session2_Expire'] = $time;
         }
         if (!isset($_SESSION['__HTTP_Session2_Expire_TS'])) {
             $_SESSION['__HTTP_Session2_Expire_TS'] = time();
@@ -350,7 +350,7 @@ class HTTP_Session2
         if ($add && isset($_SESSION['__HTTP_Session2_Idle'])) {
             $_SESSION['__HTTP_Session2_Idle'] += $time;
         } else {
-            $GLOBALS['__HTTP_Session2_Idle'] = $time;
+            $_SESSION['__HTTP_Session2_Idle'] = $time;
         }
         if (!isset($_SESSION['__HTTP_Session2_Idle_TS'])) {
             $_SESSION['__HTTP_Session2_Idle_TS'] = time();
@@ -366,11 +366,11 @@ class HTTP_Session2
     {
         if (
             !isset($_SESSION['__HTTP_Session2_Idle_TS'])
-            || !isset($GLOBALS['__HTTP_Session2_Idle'])) {
+            || !isset($_SESSION['__HTTP_Session2_Idle'])) {
             return 0;
         }
         return $_SESSION['__HTTP_Session2_Idle_TS']
-            + $GLOBALS['__HTTP_Session2_Idle'];
+            + $_SESSION['__HTTP_Session2_Idle'];
     }
 
     /**
@@ -381,13 +381,13 @@ class HTTP_Session2
     public static function isExpired()
     {
         if (
-            isset($GLOBALS['__HTTP_Session2_Expire'])
-            && $GLOBALS['__HTTP_Session2_Expire'] > 0
+            isset($_SESSION['__HTTP_Session2_Expire'])
+            && $_SESSION['__HTTP_Session2_Expire'] > 0
             && isset($_SESSION['__HTTP_Session2_Expire_TS'])
             &&
             (
                 $_SESSION['__HTTP_Session2_Expire_TS']
-                + $GLOBALS['__HTTP_Session2_Expire']
+                + $_SESSION['__HTTP_Session2_Expire']
             ) <= time()) {
             return true;
         }
@@ -402,12 +402,12 @@ class HTTP_Session2
     public static function isIdle()
     {
         if (
-            isset($GLOBALS['__HTTP_Session2_Idle'])
-            && $GLOBALS['__HTTP_Session2_Idle'] > 0
+            isset($_SESSION['__HTTP_Session2_Idle'])
+            && $_SESSION['__HTTP_Session2_Idle'] > 0
             && isset($_SESSION['__HTTP_Session2_Idle_TS'])
             && (
                 $_SESSION['__HTTP_Session2_Idle_TS']
-                + $GLOBALS['__HTTP_Session2_Idle']
+                + $_SESSION['__HTTP_Session2_Idle']
             ) <= time()) {
             return true;
         }
