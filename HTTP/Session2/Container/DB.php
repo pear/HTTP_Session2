@@ -348,7 +348,7 @@ class HTTP_Session2_Container_DB extends HTTP_Session2_Container
         }
 
         // Check if table row already exists
-        $query = sprintf("SELECT COUNT(id) FROM %s WHERE id = %s",
+        $query  = sprintf("SELECT COUNT(id) FROM %s WHERE id = %s",
             $target,
             $this->db->quoteSmart(md5($id)));
         $result = $this->db->getOne($query);
@@ -359,17 +359,17 @@ class HTTP_Session2_Container_DB extends HTTP_Session2_Container
 
         // Insert new row into target table
         if (0 == intval($result)) {
-            $query = sprintf("INSERT INTO %s SELECT * FROM %s WHERE id = %s",
-                $target,
-                $this->options['table'],
-                $this->db->quoteSmart(md5($id)));
-
+            $query  = "INSERT INTO $target SELECT * FROM";
+            $query .= " " . $this->options['table'];
+            $query .= " WHERE id = " . $this->db->quoteSmart(md5($id));
         } else {
             // Update existing row
-            $query = sprintf("UPDATE %s dst, %s src SET dst.expiry = src.expiry, dst.data = src.data WHERE dst.id = src.id AND src.id = %s",
-                $target,
-                $this->options['table'],
-                $this->db->quoteSmart(md5($id)));
+            $query  = "UPDATE $target dst,";
+            $query .= " " . $this->options['table'];
+            $query .= " src SET dst.expiry = src.expiry,";
+            $query .= " dst.data = src.data";
+            $query .= " WHERE dst.id = src.id";
+            $query .= " AND src.id = " . $this->db->quoteSmart(md5($id));
         }
 
         $result = $this->db->query($query);
