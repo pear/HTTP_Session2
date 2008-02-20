@@ -1,18 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.6.2" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
-http://pear.php.net/dtd/tasks-1.0.xsd
-http://pear.php.net/dtd/package-2.0
-http://pear.php.net/dtd/package-2.0.xsd">
+<package packagerversion="1.7.0RC2" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
  <name>HTTP_Session2</name>
  <channel>pear.php.net</channel>
  <summary>PHP5 Session Handler</summary>
- <description>PHP5 Object-oriented interface to the session_* family functions it 
-                    provides extra features such as database storage for session data using DB 
-                    package. Supported containers are PEAR::DB and PEAR::MDB2. It introduces 
-                    new methods like isNew(), useCookies(), setExpire(), setIdle(), isExpired(), 
-                    isIdled() and others.
-        
- </description>
+ <description>PHP5 Object-oriented interface to the session_* family functions it provides extra features such as database storage for session data using DB/MDB2 packages.
+
+Supported containers are PEAR::DB, PEAR::MDB2 and Memcache.
+
+HTTP_Session2 introduces new methods such as isNew(), useCookies(), setExpire(), setIdle(), isExpired(), isIdled() and more.</description>
  <lead>
   <name>Till Klampaeckel</name>
   <user>till</user>
@@ -25,10 +20,10 @@ http://pear.php.net/dtd/package-2.0.xsd">
   <email>bate@php.net</email>
   <active>yes</active>
  </developer>
- <date>2008-02-06</date>
- <time>15:45:00</time>
+ <date>2008-02-20</date>
+ <time>17:55:00</time>
  <version>
-  <release>0.7.0</release>
+  <release>0.7.1</release>
   <api>0.7.0</api>
  </version>
  <stability>
@@ -37,12 +32,18 @@ http://pear.php.net/dtd/package-2.0.xsd">
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">The BSD License</license>
  <notes>
-- new Memcache container
-- many smaller fixes for the containers (in respect to future drivers)
-(This is a please-help-test-release. :-))
+ Thanks to the people who reported those bugs:
+ * Fix Bug #12701: setExpire() bug + documentation problem
+ * Fix Bug #13084: Idle property and Expiry property don&apos;t work
+ * Fix Bug #13126: Class method visibility
+ * Fix Bug #13127: The given dsn was not valid for MDB2
  </notes>
  <contents>
   <dir name="/">
+   <dir name="docs">
+    <file baseinstalldir="HTTP_Session2" name="HTTP_Session2_Example.php" role="doc" />
+    <file baseinstalldir="HTTP_Session2" name="sessiondata.sql" role="doc" />
+   </dir> <!-- /docs -->
    <dir name="HTTP">
     <dir name="Session2">
      <dir name="Container">
@@ -50,7 +51,7 @@ http://pear.php.net/dtd/package-2.0.xsd">
        <tasks:replace from="@package_version@" to="version" type="package-info" />
        <tasks:replace from="@data_dir@" to="data_dir" type="pear-config" />
       </file>
-      <file name="Memcache.php" role="php">
+      <file name="Interface.php" role="php">
        <tasks:replace from="@package_version@" to="version" type="package-info" />
        <tasks:replace from="@data_dir@" to="data_dir" type="pear-config" />
       </file>
@@ -58,11 +59,11 @@ http://pear.php.net/dtd/package-2.0.xsd">
        <tasks:replace from="@package_version@" to="version" type="package-info" />
        <tasks:replace from="@data_dir@" to="data_dir" type="pear-config" />
       </file>
-      <file name="Interface.php" role="php">
+      <file name="Memcache.php" role="php">
        <tasks:replace from="@package_version@" to="version" type="package-info" />
        <tasks:replace from="@data_dir@" to="data_dir" type="pear-config" />
       </file>
-     </dir> <!-- //HTTP/Session2/Container -->
+     </dir> <!-- /HTTP/Session2/Container -->
      <file name="Container.php" role="php">
       <tasks:replace from="@package_version@" to="version" type="package-info" />
       <tasks:replace from="@data_dir@" to="data_dir" type="pear-config" />
@@ -71,20 +72,16 @@ http://pear.php.net/dtd/package-2.0.xsd">
       <tasks:replace from="@package_version@" to="version" type="package-info" />
       <tasks:replace from="@data_dir@" to="data_dir" type="pear-config" />
      </file>
-    </dir> <!-- //HTTP/Session2 -->
+    </dir> <!-- /HTTP/Session2 -->
     <file name="Session2.php" role="php">
      <tasks:replace from="@package_version@" to="version" type="package-info" />
      <tasks:replace from="@data_dir@" to="data_dir" type="pear-config" />
     </file>
-   </dir> <!-- //HTTP -->
-   <dir name="docs" baseinstalldir="HTTP_Session2">
-    <file name="HTTP_Session2_Example.php" role="doc"/>
-    <file name="sessiondata.sql" role="doc"/>
-   </dir>
-   <dir name="tests" baseinstalldir="HTTP_Session2">
-    <file name="AllTests.php" role="test"/>
-    <file name="Session2Test.php" role="test"/>
-   </dir>
+   </dir> <!-- /HTTP -->
+   <dir name="tests">
+    <file baseinstalldir="HTTP_Session2" name="AllTests.php" role="test" />
+    <file baseinstalldir="HTTP_Session2" name="Session2Test.php" role="test" />
+   </dir> <!-- /tests -->
   </dir> <!-- / -->
  </contents>
  <dependencies>
@@ -106,11 +103,6 @@ http://pear.php.net/dtd/package-2.0.xsd">
     <name>DB</name>
     <channel>pear.php.net</channel>
     <min>1.7.11</min>
-   </package>
-   <package>
-    <name>Memcache</name>
-    <channel>pecl.php.net</channel>
-    <min>2.2.2</min>
    </package>
   </optional>
  </dependencies>
@@ -153,13 +145,11 @@ http://pear.php.net/dtd/package-2.0.xsd">
    </stability>
    <date>2007-12-02</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>
-  - Mark beta
-  - added a MDB2 Container
-  - removed Containers for MDB and Creole (too slow and unmaintained anyway)
-  - fixed smaller issues/bugs
-  - fixed CS
-   </notes>
+   <notes>- Mark beta
+- added a MDB2 Container
+- removed Containers for MDB and Creole (too slow and unmaintained anyway)
+- fixed smaller issues/bugs
+- fixed CS</notes>
   </release>
   <release>
    <version>
@@ -172,12 +162,10 @@ http://pear.php.net/dtd/package-2.0.xsd">
    </stability>
    <date>2007-12-12</date>
    <license uri="http://www.opensource.org/licenses/bsd-license.php">The BSD License</license>
-   <notes>
-  - smaller fixes in phpcs (file names, etc.)
-  - small fixes in MDB2 container
-  - added more documentation inline
-  - changed license to The BSD License
-   </notes>
+   <notes>- smaller fixes in phpcs (file names, etc.)
+- small fixes in MDB2 container
+- added more documentation inline
+- changed license to The BSD License</notes>
   </release>
   <release>
    <version>
@@ -190,13 +178,11 @@ http://pear.php.net/dtd/package-2.0.xsd">
    </stability>
    <date>2008-02-08</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>
-  - Mark beta
-  - added a MDB2 Container
-  - removed Containers for MDB and Creole (too slow and unmaintained anyway)
-  - fixed smaller issues/bugs
-  - fixed CS
-   </notes>
+   <notes>- Mark beta
+- added a MDB2 Container
+- removed Containers for MDB and Creole (too slow and unmaintained anyway)
+- fixed smaller issues/bugs
+- fixed CS</notes>
   </release>
   <release>
    <version>
@@ -209,29 +195,25 @@ http://pear.php.net/dtd/package-2.0.xsd">
    </stability>
    <date>2007-12-12</date>
    <license uri="http://www.opensource.org/licenses/bsd-license.php">The BSD License</license>
-   <notes>
-  - smaller fixes in phpcs (file names, etc.)
-  - small fixes in MDB2 container
-  - added more documentation inline
-  - changed license to The BSD License
-   </notes>
+   <notes>- smaller fixes in phpcs (file names, etc.)
+- small fixes in MDB2 container
+- added more documentation inline
+- changed license to The BSD License</notes>
   </release>
   <release>
    <version>
-    <release>0.7.0</release>
+    <release>0.7.1</release>
     <api>0.7.0</api>
    </version>
    <stability>
     <release>beta</release>
     <api>beta</api>
    </stability>
-   <date>2008-02-08</date>
+   <date>2008-02-06</date>
    <license uri="http://www.opensource.org/licenses/bsd-license.php">The BSD License</license>
-   <notes>
-- new Memcache container
+   <notes>- new Memcache container
 - many smaller fixes for the containers (in respect to future drivers)
-(This is a please-help-test-release. :-))
-   </notes>
+(This is a please-help-test-release. :-))</notes>
   </release>
  </changelog>
 </package>
