@@ -20,11 +20,11 @@ HTTP_Session2 introduces new methods such as isNew(), useCookies(), setExpire(),
   <email>bate@php.net</email>
   <active>yes</active>
  </developer>
- <date>2008-02-20</date>
+ <date>2008-04-01</date>
  <time>17:55:00</time>
  <version>
-  <release>0.7.1</release>
-  <api>0.7.0</api>
+  <release>0.7.2</release>
+  <api>0.7.2</api>
  </version>
  <stability>
   <release>beta</release>
@@ -32,11 +32,8 @@ HTTP_Session2 introduces new methods such as isNew(), useCookies(), setExpire(),
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">The BSD License</license>
  <notes>
- Thanks to the people who reported those bugs:
- * Fix Bug #12701: setExpire() bug + documentation problem
- * Fix Bug #13084: Idle property and Expiry property don&apos;t work
- * Fix Bug #13126: Class method visibility
- * Fix Bug #13127: The given dsn was not valid for MDB2
+ * removed old code in MDB2 driver
+ * now throwing exceptions in MDB2 for all errors
  </notes>
  <contents>
   <dir name="/">
@@ -214,6 +211,22 @@ HTTP_Session2 introduces new methods such as isNew(), useCookies(), setExpire(),
    <notes>- new Memcache container
 - many smaller fixes for the containers (in respect to future drivers)
 (This is a please-help-test-release. :-))</notes>
+  </release>
+  <release>
+   <version>
+    <release>0.7.2</release>
+    <api>0.7.2</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2008-04-01</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">The BSD License</license>
+   <notes>
+ * removed old code in MDB2 driver
+ * now throwing exceptions in MDB2 for all errors
+   </notes>
   </release>
  </changelog>
 </package>
