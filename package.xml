@@ -76,8 +76,8 @@ HTTP_Session2 introduces new methods such as isNew(), useCookies(), setExpire(),
     </file>
    </dir> <!-- /HTTP -->
    <dir name="tests">
-    <file baseinstalldir="HTTP_Session2" name="AllTests.php" role="test" />
-    <file baseinstalldir="HTTP_Session2" name="Session2Test.php" role="test" />
+    <file baseinstalldir="HTTP_Session2" name="test-session.phpt" />
+    <file baseinstalldir="HTTP_Session2" name="test-session2.phpt" />
    </dir> <!-- /tests -->
   </dir> <!-- / -->
  </contents>
