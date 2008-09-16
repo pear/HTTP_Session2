@@ -185,7 +185,7 @@ class HTTP_Session2
      * @see    session_id()
      * @see    session_start()
      */
-    public function start($name = 'SessionID', $id = null)
+    public static function start($name = 'SessionID', $id = null)
     {
         self::name($name);
         if (is_null(self::detectID())) {
@@ -535,9 +535,9 @@ class HTTP_Session2
      * @param string $name  Name of a variable
      * @param mixed  $value Value of a variable
      *
-     * @return mixed  Old value of a variable
+     * @return mixed Old value of a variable
      */
-    public function set($name, $value)
+    public static function set($name, $value)
     {
         $return = (isset($_SESSION[$name])) ? $_SESSION[$name] : null;
         if (null === $value) {
@@ -732,5 +732,9 @@ class HTTP_Session2
     }
 }
 
+/**
+ * init {@link HTTP_Session2}
+ * 
+ * @see HTTP_Session2::init()
+ */
 HTTP_Session2::init();
-?>
