@@ -112,7 +112,8 @@ class HTTP_Session2_Container_MDB2 extends HTTP_Session2_Container
         } else {
             $msg  = "The given dsn was not valid in file ";
             $msg .= __FILE__ . " at line " . __LINE__;
-            throw new HTTP_Session2_Exception($msg);
+            throw new HTTP_Session2_Exception($msg,
+                HTTP_Session2::ERR_SYSTEM_PRECONDITION);
         }
         if (MDB2::isError($this->db)) {
             throw new HTTP_Session2_Exception($this->db->getMessage(),

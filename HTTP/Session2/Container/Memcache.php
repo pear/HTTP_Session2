@@ -75,9 +75,9 @@ class HTTP_Session2_Container_Memcache extends HTTP_Session2_Container
         } else {
             throw new HTTP_Session2_Exception(
                 'The given memcache object was not valid in file '
-                . __FILE__ . ' at line ' . __LINE__, 41);
+                . __FILE__ . ' at line ' . __LINE__,
+                HTTP_Session2::ERR_SYSTEM_PRECONDITION);
         }
-
         return true;
     }
 
