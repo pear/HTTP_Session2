@@ -437,12 +437,16 @@ class HTTP_Session2
      *
      * It returns the previous value of this property.
      *
-     * @param boolean $useCookies If specified it will replace the previous value
-     *                            of this property
+     * @param boolean $useCookies If specified it will replace the previous value of
+     *                            this property. By default 'null', which doesn't
+     *                            change any setting on your system. If you supply a
+     *                            parameter, please supply 'boolean'.
      *
      * @return boolean The previous value of the property
-     * @throws HTTP_Session2_Exception If ini_set fails!
+     * 
+     * @throws HTTP_Session2_Exception If ini_set() fails!
      * @see    session_set_cookie_params()
+     * @link   http://php.net/manual/en/function.session-set-cookie-params.php
      */
     public static function useCookies($useCookies = null)
     {
@@ -450,16 +454,17 @@ class HTTP_Session2
         if (ini_get('session.use_cookies') == '1') {
             $return = true;
         }
-        if ($useCookies != null) {
-            if ($useCookies) {
+        if ($useCookies !== null) {
+            if ($useCookies === true) {
                 $status = ini_set('session.use_cookies', 1);
             } else {
                 $status = ini_set('session.use_cookies', 0);
             }
             if ($status === false) {
-                throw new HTTP_Session2_Exception(
-                    'Could not set session.use_cookies, please check permissions.',
-                    self::ERR_SYSTEM_PERM);
+                $msg  = "Could not set 'session.use_cookies'. Please check your ";
+                $msg .= 'permissions to override php.ini-settings. E.g. a possible ';
+                $msg .= 'php_admin_value setting or blocked ini_set() calls ';
+                throw new HTTP_Session2_Exception($msg, self::ERR_SYSTEM_PERM);
             }
         }
         return $return;
@@ -472,9 +477,11 @@ class HTTP_Session2
      * You MUST call this method only after you have started
      * the session with the HTTP_Session2::start() method.
      *
-     * @return boolean true if the session was created
-     *                 with the current request, false otherwise
-     * @see    self::start()
+     * @return boolean true when the session was created with the current request
+     *                 false otherwise
+     *
+     * @see  self::start()
+     * @uses self::STARTED
      */
     public static function isNew()
     {
@@ -693,8 +700,8 @@ class HTTP_Session2
      *
      * It returns the previous value of this property
      *
-     * @param boolean $gcMaxLifetime If specified it will replace the previous value
-     *                               of this property
+     * @param int $gcMaxLifetime If specified it will replace the previous value of
+     *                           this property, and must be integer.
      *
      * @return boolean The previous value of the property
      */
@@ -714,8 +721,8 @@ class HTTP_Session2
      *
      * It returns the previous value of this property
      *
-     * @param boolean $gcProbability If specified it will replace the previous value
-     *                               of this property
+     * @param int $gcProbability If specified it will replace the previous value of
+     *                           this property.
      *
      * @return boolean The previous value of the property
      */
