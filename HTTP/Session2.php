@@ -131,6 +131,12 @@ class HTTP_Session2
      *        E.g. Not enough permissions to override ini-settings.
      */
     const ERR_SYSTEM_PERM = 668;
+    
+    /**
+     * @const ERR_SYSTEM_PRECONDITION - Precondition failed. E.g. error occured and 
+     *        HTTP_Session2 can't start up, etc..
+     */
+    const ERR_SYSTEM_PRECONDITION = 669;
 
     /**
      * Container instance
