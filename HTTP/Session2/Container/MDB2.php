@@ -292,26 +292,11 @@ class HTTP_Session2_Container_MDB2 extends HTTP_Session2_Container
         }
 
         if ($this->options['autooptimize']) {
-            switch($this->db->phptype) {
-            case 'mysql':
-            case 'mysqli':
-                $query = sprintf('OPTIMIZE TABLE %s',
-                    $this->db->quoteIdentifier($this->options['table']));
-                break;
-            case 'pgsql':
-                $query = sprintf('VACUUM %s',
-                    $this->db->quoteIdentifier($this->options['table']));
-                break;
-            default:
-                $query = null;
-                break;
-            }
-            if ($query !== null) {
-                $result = $this->db->query($query);
-                if (MDB2::isError($result)) {
-                    throw new HTTP_Session2_Exception($result->getMessage(),
-                        $result->getCode());
-                }
+            $this->db->loadModule('Manager');
+            $result = $this->db->vacuum($this->options['table']);
+            if (MDB2::isError($result)) {
+                throw new HTTP_Session2_Exception($result->getMessage(),
+                    $result->getCode());
             }
         }
         return true;
