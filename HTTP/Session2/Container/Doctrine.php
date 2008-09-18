@@ -209,7 +209,7 @@ class HTTP_Session2_Container_Doctrine extends HTTP_Session2_Container
                     HTTP_Session2::ERR_SYSTEM_PRECONDITION);
             }
             
-            $this->crc = $result->data . crc32($result->data);
+            $this->_crc = $result->data . crc32($result->data);
             return $result->data;
         
         } catch (Doctrine_Exception $e) {
@@ -233,8 +233,8 @@ class HTTP_Session2_Container_Doctrine extends HTTP_Session2_Container
             $tableName = $this->options['table'];
             $table     = new HTTP_Session2_Container_Doctrine_Table($tableName);
             
-            if ((false !== $this->crc)
-                && ($this->crc === strlen($data) . crc32($data))) {
+            if ((false !== $this->_crc)
+                && ($this->_crc === strlen($data) . crc32($data))) {
                 /* $_SESSION hasn't been touched, no need to update the blob column */
                 $data = $table->find(md5($id));
                 $data->merge(
