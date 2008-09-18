@@ -213,8 +213,8 @@ class HTTP_Session2_Container_Doctrine extends HTTP_Session2_Container
             return $result->data;
         
         } catch (Doctrine_Exception $e) {
-            throw new HTTP_Session2_Exception($result->getMessage(),
-                $result->getCode());
+            throw new HTTP_Session2_Exception($e->getMessage(),
+                $e->getCode());
         }
     }
 
