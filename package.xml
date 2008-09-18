@@ -5,7 +5,7 @@
  <summary>PHP5 Session Handler</summary>
  <description>PHP5 Object-oriented interface to the session_* family functions it provides extra features such as database storage for session data using DB/MDB2 packages.
 
-Supported containers are PEAR::DB, PEAR::MDB2 and Memcache.
+Supported containers are PEAR::DB, PEAR::MDB2, Memcache and phpDoctrine.
 
 HTTP_Session2 introduces new methods such as isNew(), useCookies(), setExpire(), setIdle(), isExpired(), isIdled() and more.</description>
  <lead>
@@ -18,13 +18,13 @@ HTTP_Session2 introduces new methods such as isNew(), useCookies(), setExpire(),
   <name>Marco Kaiser</name>
   <user>bate</user>
   <email>bate@php.net</email>
-  <active>yes</active>
+  <active>no</active>
  </developer>
- <date>2008-04-01</date>
- <time>17:55:00</time>
+ <date>2008-09-18</date>
+ <time>20:00:00</time>
  <version>
-  <release>0.7.2</release>
-  <api>0.7.2</api>
+  <release>0.8.0</release>
+  <api>0.8.0</api>
  </version>
  <stability>
   <release>beta</release>
@@ -32,8 +32,6 @@ HTTP_Session2 introduces new methods such as isNew(), useCookies(), setExpire(),
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">The BSD License</license>
  <notes>
- * removed old code in MDB2 driver
- * now throwing exceptions in MDB2 for all errors
  </notes>
  <contents>
   <dir name="/">
@@ -44,7 +42,17 @@ HTTP_Session2 introduces new methods such as isNew(), useCookies(), setExpire(),
    <dir name="HTTP">
     <dir name="Session2">
      <dir name="Container">
+      <dir name="Doctrine">
+       <file name="Table.php" role="php">
+        <tasks:replace from="@package_version@" to="version" type="package-info" />
+        <tasks:replace from="@data_dir@" to="data_dir" type="pear-config" />
+       </file>
+      </dir>
       <file name="DB.php" role="php">
+       <tasks:replace from="@package_version@" to="version" type="package-info" />
+       <tasks:replace from="@data_dir@" to="data_dir" type="pear-config" />
+      </file>
+      <file name="Doctrine.php" role="php">
        <tasks:replace from="@package_version@" to="version" type="package-info" />
        <tasks:replace from="@data_dir@" to="data_dir" type="pear-config" />
       </file>
@@ -91,6 +99,11 @@ HTTP_Session2 introduces new methods such as isNew(), useCookies(), setExpire(),
    </pearinstaller>
   </required>
   <optional>
+   <package>
+    <name>Doctrine</name>
+    <channel>pear.phpdoctrine.org</channel>
+    <min>1.0.2</min>
+   </package>
    <package>
     <name>MDB2</name>
     <channel>pear.php.net</channel>
@@ -226,6 +239,21 @@ HTTP_Session2 introduces new methods such as isNew(), useCookies(), setExpire(),
    <notes>
  * removed old code in MDB2 driver
  * now throwing exceptions in MDB2 for all errors
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.8.0</release>
+    <api>0.8.0</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2008-09-18</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">The BSD License</license>
+   <notes>
+
    </notes>
   </release>
  </changelog>
