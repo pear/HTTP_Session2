@@ -32,6 +32,7 @@ HTTP_Session2 introduces new methods such as isNew(), useCookies(), setExpire(),
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">The BSD License</license>
  <notes>
+TO BE DONE!
  </notes>
  <contents>
   <dir name="/">
@@ -84,9 +85,9 @@ HTTP_Session2 introduces new methods such as isNew(), useCookies(), setExpire(),
     </file>
    </dir> <!-- /HTTP -->
    <dir name="tests">
-    <file baseinstalldir="HTTP_Session2" name="test-session.phpt" />
-    <file baseinstalldir="HTTP_Session2" name="test-session2.phpt" />
-    <file baseinstalldir="HTTP_Session2" name="test-session-mdb2.phpt" />
+    <file role="test" baseinstalldir="HTTP_Session2" name="test-session.phpt" />
+    <file role="test" baseinstalldir="HTTP_Session2" name="test-session2.phpt" />
+    <file role="test" baseinstalldir="HTTP_Session2" name="test-session-mdb2.phpt" />
    </dir> <!-- /tests -->
   </dir> <!-- / -->
  </contents>
@@ -254,7 +255,7 @@ HTTP_Session2 introduces new methods such as isNew(), useCookies(), setExpire(),
    <date>2008-09-18</date>
    <license uri="http://www.opensource.org/licenses/bsd-license.php">The BSD License</license>
    <notes>
-
+TO BE DONE
    </notes>
   </release>
  </changelog>
