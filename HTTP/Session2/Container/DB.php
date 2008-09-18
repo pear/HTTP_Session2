@@ -35,12 +35,13 @@
  *
  * PHP Version 5
  *
- * @category HTTP
- * @package  HTTP_Session2
- * @author   Alexander Radivanovich <info@wwwlab.net>
- * @license  http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version  CVS: $Id$
- * @link     http://pear.php.net/package/HTTP_Session2
+ * @category   HTTP
+ * @package    HTTP_Session2
+ * @author     Alexander Radivanovich <info@wwwlab.net>
+ * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ * @version    CVS: $Id$
+ * @link       http://pear.php.net/package/HTTP_Session2
+ * @deprecated This driver/container is deprecated from 0.9.0
  */
 
 /**
@@ -75,12 +76,13 @@ require_once 'DB.php';
  * );
  * </code>
  *
- * @category HTTP
- * @package  HTTP_Session2
- * @author   Alexander Radivanovich <info@wwwlab.net>
- * @license  http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version  Release: @package_version@
- * @link     http://pear.php.net/package/HTTP_Session2
+ * @category   HTTP
+ * @package    HTTP_Session2
+ * @author     Alexander Radivanovich <info@wwwlab.net>
+ * @license    http://www.opensource.org/licenses/bsd-license.php The BSD License
+ * @version    Release: @package_version@
+ * @link       http://pear.php.net/package/HTTP_Session2
+ * @deprecated This driver/container is deprecated from 0.9.0
  */
 class HTTP_Session2_Container_DB extends HTTP_Session2_Container
 {
@@ -90,14 +92,14 @@ class HTTP_Session2_Container_DB extends HTTP_Session2_Container
      *
      * @var object DB
      */
-    private $db = null;
+    private $_db = null;
 
     /**
      * Session data cache id
      *
      * @var mixed
      */
-    private $crc = false;
+    private $_crc = false;
 
     /**
      * Constrtuctor method
@@ -131,9 +133,9 @@ class HTTP_Session2_Container_DB extends HTTP_Session2_Container
     protected function connect($dsn)
     {
         if (is_string($dsn)) {
-            $this->db = DB::connect($dsn);
+            $this->_db = DB::connect($dsn);
         } else if (is_object($dsn) && is_a($dsn, 'db_common')) {
-            $this->db = $dsn;
+            $this->_db = $dsn;
         } else if (DB::isError($dsn)) {
             throw new HTTP_Session2_Exception($dsn->getMessage(), $dsn->getCode());
         } else {
@@ -194,15 +196,15 @@ class HTTP_Session2_Container_DB extends HTTP_Session2_Container
     {
         $query = sprintf("SELECT data FROM %s WHERE id = %s AND expiry >= %d",
             $this->options['table'],
-            $this->db->quote(md5($id)),
+            $this->_db->quote(md5($id)),
             time());
 
-        $result = $this->db->getOne($query);
+        $result = $this->_db->getOne($query);
         if (DB::isError($result)) {
             throw new HTTP_Session2_Exception($result->getMessage(),
                 $result->getCode());
         }
-        $this->crc = strlen($result) . crc32($result);
+        $this->_crc = strlen($result) . crc32($result);
         return $result;
     }
 
@@ -217,14 +219,14 @@ class HTTP_Session2_Container_DB extends HTTP_Session2_Container
      */
     public function write($id, $data)
     {
-        if ((false !== $this->crc)
-            && ($this->crc === strlen($data) . crc32($data))) {
+        if ((false !== $this->_crc)
+            && ($this->_crc === strlen($data) . crc32($data))) {
             /* $_SESSION hasn't been touched, no need to update the blob column */
             $query = "UPDATE %s SET expiry = %d WHERE id = %s AND expiry >= %d";
             $query = sprintf($query,
                 $this->options['table'],
                 time() + ini_get('session.gc_maxlifetime'),
-                $this->db->quote(md5($id)),
+                $this->_db->quote(md5($id)),
                 time());
         } else {
             /* Check if table row already exists */
@@ -232,7 +234,7 @@ class HTTP_Session2_Container_DB extends HTTP_Session2_Container
                 $this->options['table'],
                 md5($id));
 
-            $result = $this->db->getOne($query);
+            $result = $this->_db->getOne($query);
             if (DB::isError($result)) {
                 new DB_Error($result->code, PEAR_ERROR_DIE);
                 return false;
@@ -242,9 +244,9 @@ class HTTP_Session2_Container_DB extends HTTP_Session2_Container
                 $query = "INSERT INTO %s (id, expiry, data) VALUES (%s, %d, %s)";
                 $query = sprintf($query,
                     $this->options['table'],
-                    $this->db->quote(md5($id)),
+                    $this->_db->quote(md5($id)),
                     time() + ini_get('session.gc_maxlifetime'),
-                    $this->db->quote($data));
+                    $this->_db->quote($data));
             } else {
                 /* Update existing row */
                 $query  = "UPDATE %s SET expiry = %d, data = %s";
@@ -252,12 +254,12 @@ class HTTP_Session2_Container_DB extends HTTP_Session2_Container
                 $query  = sprintf($query,
                     $this->options['table'],
                     time() + ini_get('session.gc_maxlifetime'),
-                    $this->db->quote($data),
-                    $this->db->quote(md5($id)),
+                    $this->_db->quote($data),
+                    $this->_db->quote(md5($id)),
                     time());
             }
         }
-        $result = $this->db->query($query);
+        $result = $this->_db->query($query);
         if (DB::isError($result)) {
             new DB_Error($result->code, PEAR_ERROR_DIE);
             return false;
@@ -276,9 +278,9 @@ class HTTP_Session2_Container_DB extends HTTP_Session2_Container
     {
         $query = sprintf("DELETE FROM %s WHERE id = %s",
             $this->options['table'],
-            $this->db->quote(md5($id)));
+            $this->_db->quote(md5($id)));
 
-        $result = $this->db->query($query);
+        $result = $this->_db->query($query);
         if (DB::isError($result)) {
             new DB_Error($result->code, PEAR_ERROR_DIE);
             return false;
@@ -300,14 +302,14 @@ class HTTP_Session2_Container_DB extends HTTP_Session2_Container
             $this->options['table'],
             time());
 
-        $result = $this->db->query($query);
+        $result = $this->_db->query($query);
         if (DB::isError($result)) {
             new DB_Error($result->code, PEAR_ERROR_DIE);
             return false;
         }
 
         if ($this->options['autooptimize']) {
-            switch($this->db->type) {
+            switch($this->_db->type) {
             case 'mysql':
                 $query = sprintf("OPTIMIZE TABLE %s", $this->options['table']);
                 break;
@@ -319,7 +321,7 @@ class HTTP_Session2_Container_DB extends HTTP_Session2_Container
                 break;
             }
             if (isset($query)) {
-                $result = $this->db->query($query);
+                $result = $this->_db->query($query);
                 if (DB::isError($result)) {
                     new DB_Error($result->code, PEAR_ERROR_DIE);
                     return false;
@@ -347,8 +349,8 @@ class HTTP_Session2_Container_DB extends HTTP_Session2_Container
         // Check if table row already exists
         $query  = sprintf("SELECT COUNT(id) FROM %s WHERE id = %s",
             $target,
-            $this->db->quoteSmart(md5($id)));
-        $result = $this->db->getOne($query);
+            $this->_db->quoteSmart(md5($id)));
+        $result = $this->_db->getOne($query);
         if (DB::isError($result)) {
             new DB_Error($result->code, PEAR_ERROR_DIE);
             return false;
@@ -358,7 +360,7 @@ class HTTP_Session2_Container_DB extends HTTP_Session2_Container
         if (0 == intval($result)) {
             $query  = "INSERT INTO $target SELECT * FROM";
             $query .= " " . $this->options['table'];
-            $query .= " WHERE id = " . $this->db->quoteSmart(md5($id));
+            $query .= " WHERE id = " . $this->_db->quoteSmart(md5($id));
         } else {
             // Update existing row
             $query  = "UPDATE $target dst,";
@@ -366,10 +368,10 @@ class HTTP_Session2_Container_DB extends HTTP_Session2_Container
             $query .= " src SET dst.expiry = src.expiry,";
             $query .= " dst.data = src.data";
             $query .= " WHERE dst.id = src.id";
-            $query .= " AND src.id = " . $this->db->quoteSmart(md5($id));
+            $query .= " AND src.id = " . $this->_db->quoteSmart(md5($id));
         }
 
-        $result = $this->db->query($query);
+        $result = $this->_db->query($query);
         if (DB::isError($result)) {
             new DB_Error($result->code, PEAR_ERROR_DIE);
             return false;
