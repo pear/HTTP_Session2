@@ -86,6 +86,7 @@ HTTP_Session2 introduces new methods such as isNew(), useCookies(), setExpire(),
    <dir name="tests">
     <file baseinstalldir="HTTP_Session2" name="test-session.phpt" />
     <file baseinstalldir="HTTP_Session2" name="test-session2.phpt" />
+    <file baseinstalldir="HTTP_Session2" name="test-session-mdb2.phpt" />
    </dir> <!-- /tests -->
   </dir> <!-- / -->
  </contents>

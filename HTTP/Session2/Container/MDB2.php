@@ -104,11 +104,15 @@ class HTTP_Session2_Container_MDB2 extends HTTP_Session2_Container
             return true;
         }
         if (is_string($dsn) || is_array($dsn)) {
-            $this->db = MDB2::connect($dsn);
+            if (MDB2::isError($this->db = MDB2::connect($dsn))) {
+                throw new HTTP_Session2_Exception($this->db->getDebugInfo(),
+                    $this->db->getCode());
+            }
         } else if (is_object($dsn) && ($dsn instanceof MDB2_Driver_Common)) {
             $this->db = $dsn;
         } else if (MDB2::isError($dsn)) {
-            throw new HTTP_Session2_Exception($dsn->getMessage(), $dsn->getCode());
+            throw new HTTP_Session2_Exception($dsn->getDebugInfo(),
+                $dsn->getCode());
         } else {
             $msg  = "The given dsn was not valid in file ";
             $msg .= __FILE__ . " at line " . __LINE__;
