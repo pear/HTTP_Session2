@@ -1,5 +1,5 @@
 --TEST--
-HTTP_Session2 testing session write and read
+HTTP_Session2 testing session write and read (file-only)
 --FILE--
 <?php
 $_tmp = dirname(__FILE__) . '/tmp';
