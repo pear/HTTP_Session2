@@ -85,6 +85,7 @@ TO BE DONE!
     </file>
    </dir> <!-- /HTTP -->
    <dir name="tests">
+    <file role="test" baseinstalldir="HTTP_Session2" name="AllTests.php" />
     <file role="test" baseinstalldir="HTTP_Session2" name="test-session.phpt" />
     <file role="test" baseinstalldir="HTTP_Session2" name="test-session2.phpt" />
     <file role="test" baseinstalldir="HTTP_Session2" name="test-session-mdb2.phpt" />
