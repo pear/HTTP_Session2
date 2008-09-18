@@ -16,7 +16,7 @@
  * @license    http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @version    CVS: $Id$
  * @link       http://pear.php.net/package/HTTP_Session2
- * @since      1.2.0a1
+ * @since      0.8.0
  */
 
 
@@ -74,7 +74,7 @@ define('HTTP_Session2_DIR_PHPT', dirname(__FILE__));
  * @license    http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @version    Release: @package_version@
  * @link       http://pear.php.net/package/HTTP_Session2
- * @since      1.2.0a1
+ * @since      0.8.0
  */
 class HTTP_Session2_AllTests
 {
