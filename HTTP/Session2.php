@@ -163,7 +163,9 @@ class HTTP_Session2
         $container_class     = 'HTTP_Session2_Container_' . $container;
         $container_classfile = 'HTTP/Session2/Container/' . $container . '.php';
 
-        include_once $container_classfile;
+        if (!class_exists($container_class)) {
+            include_once $container_classfile;
+        }
         if (!class_exists($container_class)) {
             throw new HTTP_Session2_Exception(
                 "Container class, $container_class, does not exist",
