@@ -35,7 +35,7 @@ function createDB($db)
     try {
         $db   = Doctrine_Manager::connection("sqlite:///$db");
         $path = '@include_path@/HTTP/Session2/Container/Doctrine';
-        $path = '/usr/local/share/pear/HTTP/Session2/Container/Doctrine';
+        //$path = '/usr/local/share/pear/HTTP/Session2/Container/Doctrine';
         $sql  = Doctrine::generateSqlFromModels($path);
         $db->execute($sql);
     } catch (Doctrine_Exception $e) {
