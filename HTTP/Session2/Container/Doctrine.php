@@ -37,7 +37,9 @@ spl_autoload_register(array('Doctrine', 'autoload'));
 /**
  * HTTP_Session2_Container_Doctrine_Table
  */
-require_once 'HTTP/Session2/Container/Doctrine/Table.php';
+if (!class_exists('HTTP_Session2_Container_Doctrine_Table')) {
+    require_once 'HTTP/Session2/Container/Doctrine/Table.php';
+}
 
 /**
  * Database container for session data
@@ -124,9 +126,10 @@ class HTTP_Session2_Container_Doctrine extends HTTP_Session2_Container
         }
         if (is_string($dsn) || is_array($dsn)) {
             try {
-                Doctrine_Manager::connection($dsn);
+                $this->_db = Doctrine_Manager::connection($dsn);
             } catch (Doctrine_Exception $e) {
-                throw new HTTP_Session2_Exception($e->getMessage(), $e->getCode());
+                throw new HTTP_Session2_Exception($e->getMessage(),
+                    $e->getCode(), $e);
             }
             return true;
         }
@@ -191,18 +194,20 @@ class HTTP_Session2_Container_Doctrine extends HTTP_Session2_Container
             $expire = new Doctrine_Expression('NOW()');
             
             $tableName = $this->options['table'];
-            $table     = new HTTP_Session2_Container_Doctrine_Table($tableName);
+            $session   = $this->_db->getTable('HTTP_Session2_Container_Doctrine_Table');
 
-            $query = Doctrine_Query::create();
-            $query->select('name');
-            $query->from($table);
-            $query->where('id = ?', $id);
-            $query->where('expire = ?', $expire);
-            $query->limit(1);
+            //throw new HTTP_Session2_Exception(var_export(get_class_methods($this->_db), true));
+            //throw new HTTP_Session2_Exception(var_export($session, true));
 
-            $result = $query->fetchOne();
-            
-            if (count($result) == 0) {
+            $result = $session->find($id);
+            if ($result === false) {
+                return $result;
+            }
+            if ($result->expiry != time()) {
+                $result = null;
+            }
+
+            if ($result === null) {
                 // how did this happen?
                 $msg = 'Could not read session data (race-condition?)';
                 throw new HTTP_Session2_Exception($msg,
@@ -214,7 +219,7 @@ class HTTP_Session2_Container_Doctrine extends HTTP_Session2_Container
         
         } catch (Doctrine_Exception $e) {
             throw new HTTP_Session2_Exception($e->getMessage(),
-                $e->getCode());
+                $e->getCode(), $e);
         }
     }
 
@@ -267,7 +272,7 @@ class HTTP_Session2_Container_Doctrine extends HTTP_Session2_Container
             $result->save();
 
         } catch (Doctrine_Exception $e) {
-            throw new HTTP_Session2_Exception($e->getMessage(), $e->getCode());
+            throw new HTTP_Session2_Exception($e->getMessage(), $e->getCode(), $e);
         }
     }
 
@@ -286,7 +291,7 @@ class HTTP_Session2_Container_Doctrine extends HTTP_Session2_Container
             $session = $table->find(md5($id));
             $session->delete();
         } catch (Doctrine_Exception $e) {
-            throw new HTTP_Session2_Exception ($e->getMessage(), $e->getCode());
+            throw new HTTP_Session2_Exception ($e->getMessage(), $e->getCode(), $e);
         }
         return true;
     }
@@ -318,7 +323,7 @@ class HTTP_Session2_Container_Doctrine extends HTTP_Session2_Container
             $result->delete();
 
         } catch (Doctrine_Exception $e) {
-            throw new HTTP_Session2_Exception($e->getMessage(), $e->getCode());
+            throw new HTTP_Session2_Exception($e->getMessage(), $e->getCode(), $e);
         }
 
         if ($this->options['autooptimize']) {
@@ -373,7 +378,7 @@ class HTTP_Session2_Container_Doctrine extends HTTP_Session2_Container
             $session->save();
         
         } catch (Doctrine_Exception $e) {
-            throw HTTP_Session2_Exception($e->getMessage(), $e->getCode());
+            throw HTTP_Session2_Exception($e->getMessage(), $e->getCode(), $e);
         }
 
         return true;

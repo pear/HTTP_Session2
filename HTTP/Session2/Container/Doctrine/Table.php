@@ -25,6 +25,8 @@
  */
 class HTTP_Session2_Container_Doctrine_Table extends Doctrine_Record
 {
+    protected $tillTable;
+
     /**
      * __construct
      * 
@@ -35,11 +37,14 @@ class HTTP_Session2_Container_Doctrine_Table extends Doctrine_Record
      */
     public function __construct($tableName = 'sessiondata')
     {
+        $this->tillTable = $tableName;
         parent::__construct($tableName);
     }
 
     public function setTableDefinition()
     {
+        $this->setTableName('sessiondata');
+
         $this->hasColumn('id', 'string', 32, array('primary' => true));
         $this->hasColumn('expire', 'integer');
         $this->hasColumn('data', 'text');

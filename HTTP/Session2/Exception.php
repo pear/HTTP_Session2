@@ -62,4 +62,49 @@ require_once 'PEAR/Exception.php';
  */
 class HTTP_Session2_Exception extends PEAR_Exception
 {
+    /**
+     * @var array $exceptionStack To add an exception, when we re-throw.
+     */
+    protected $exceptionStack = array();
+
+    /**
+     * __construct
+     *
+     * @param string $message   An error message.
+     * @param mixed  $code      An error code.
+     * @param mixed  $exception The previous exception, when we re-throw [optional]
+     *
+     * @uses parent::__construct()
+     * @uses self::$exceptionStack
+     */
+    public function __construct($message, $code = null, $exception = null)
+    {
+        if ($exception !== null) {
+            array_push($this->exceptionStack, $exception);
+        }
+        parent::__construct($message, $code);
+    }
+
+    /**
+     * __toString() implementation for lazy coders like me :)
+     *
+     * @return string
+     * @uses   parent::$message
+     * @uses   parent::$code
+     */
+    public function __toString()
+    {
+        return "{$this->message} Code: {$this->code}"; 
+    }
+
+    /**
+     * Return all stacked exceptions
+     *
+     * @return array
+     * @uses   self::$exceptionStack
+     */
+    public function getExceptionStack()
+    {
+        return $this->exceptionStack;
+    }
 }

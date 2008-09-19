@@ -88,6 +88,9 @@ TO BE DONE!
     <file role="test" baseinstalldir="HTTP_Session2" name="AllTests.php" />
     <file role="test" baseinstalldir="HTTP_Session2" name="test-session.phpt" />
     <file role="test" baseinstalldir="HTTP_Session2" name="test-session2.phpt" />
+    <file role="test" baseinstalldir="HTTP_Session2" name="test-session-doctrine.phpt">
+     <tasks:replace from="@include_path@" to="php_dir" type="pear-config" />
+    </file>
     <file role="test" baseinstalldir="HTTP_Session2" name="test-session-mdb2.phpt" />
    </dir> <!-- /tests -->
   </dir> <!-- / -->
