@@ -70,7 +70,7 @@ try {
             var_dump(HTTP_Session2::get('test'));
         }
     }
-} catch (HTTP_Session2_Exception $e) {
+} catch (Exception $e) {
     die($e->getMessage());
 }
 --CLEAN--
@@ -79,14 +79,6 @@ $_tmp = dirname(__FILE__) . '/tmp';
 $_db  = $_tmp . '/test.db';
 unlink($_db);
 rmdir($_tmp);
-
-require_once 'Doctrine/lib/Doctrine.php';
-spl_autoload_register(array('Doctrine', 'autoload'));
-
-$db = Doctrine_Manager::connection("sqlite:///$db");
-var_dump(get_class_methods($db));
-//$db->dropTable('session_data');
-
 --EXPECT--
 string(9) "Setting.."
 string(12) "Retrieving.."
