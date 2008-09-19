@@ -1,5 +1,12 @@
 --TEST--
 HTTP_Session2 with MDB2 container (and sqlite) write and read
+--SKIPIF--
+<?php 
+include_once 'MDB2.php';
+if (!class_exists('MDB2')) {
+    die('Please install MDB2 (and its SQLite driver) to run this test.');
+}
+?>
 --FILE--
 <?php
 $_tmp = dirname(__FILE__) . '/tmp';
