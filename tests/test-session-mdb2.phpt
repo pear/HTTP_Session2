@@ -6,6 +6,9 @@ include_once 'MDB2.php';
 if (!class_exists('MDB2')) {
     die('Please install MDB2 (and its SQLite driver) to run this test.');
 }
+if (!extension_loaded('sqlite')) {
+    die('Please install the sqlite extension to run this test.'):
+}
 ?>
 --FILE--
 <?php
