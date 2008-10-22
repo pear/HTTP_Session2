@@ -120,6 +120,10 @@ TO BE DONE!
     <channel>pear.php.net</channel>
     <min>1.7.11</min>
    </package>
+   <package>
+    <name>memcache</name>
+    <channel>pecl.php.net</channel>
+   </package>
   </optional>
  </dependencies>
  <phprelease />
