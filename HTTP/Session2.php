@@ -139,6 +139,11 @@ class HTTP_Session2
     const ERR_SYSTEM_PRECONDITION = 669;
 
     /**
+     * @const ERR_NOT_IMPLEMENTED Feature is not yet Implement in the container.
+     */
+    const ERR_NOT_IMPLEMENTED = 670;
+
+    /**
      * Container instance
      */
     public static $container;
