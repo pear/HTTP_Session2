@@ -59,14 +59,14 @@ class HTTP_Session2_Container_MDB2 extends HTTP_Session2_Container
      *
      * @var object DB
      */
-    private $db = null;
+    protected $db = null;
 
     /**
      * Session data cache id
      *
      * @var mixed
      */
-    private $crc = false;
+    protected $crc = false;
 
     /**
      * Constrtuctor method
