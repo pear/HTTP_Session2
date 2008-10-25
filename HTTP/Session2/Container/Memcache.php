@@ -33,7 +33,7 @@ require_once 'HTTP/Session2/Exception.php';
  * @license  http://www.opensource.org/licenses/bsd-license.php The BSD License
  * @version  Release: @package_version@
  * @link     http://pear.php.net/package/HTTP_Session2
- * @since    Class available since Release 0.6.2
+ * @since    0.6.2
  */
 class HTTP_Session2_Container_Memcache extends HTTP_Session2_Container
 {
@@ -138,12 +138,10 @@ class HTTP_Session2_Container_Memcache extends HTTP_Session2_Container
      */
     public function write($id, $data)
     {
-        $this->mc->set(
-            $this->options['prefix'] . $id,
+        $this->mc->set($this->options['prefix'] . $id,
             $data,
             MEMCACHE_COMPRESSED,
-            time() + ini_get('session.gc_maxlifetime')
-        );
+            time() + ini_get('session.gc_maxlifetime'));
 
         return true;
     }
