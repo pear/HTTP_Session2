@@ -22,9 +22,13 @@
  * @version  Release: @package_version@
  * @link     http://pear.php.net/package/HTTP_Session2
  * @uses     Doctrine_Record
+ * @todo     Fix variable naming. ;-)
  */
 class HTTP_Session2_Container_Doctrine_Table extends Doctrine_Record
 {
+    /**
+     * @var string $tillTable
+     */
     protected $tillTable;
 
     /**
@@ -34,6 +38,7 @@ class HTTP_Session2_Container_Doctrine_Table extends Doctrine_Record
      * 
      * @return HTTP_Session2_Container_Doctrine_Table
      * @uses   parent::__construct()
+     * @uses   self::$tillTable
      */
     public function __construct($tableName = 'sessiondata')
     {
@@ -41,6 +46,14 @@ class HTTP_Session2_Container_Doctrine_Table extends Doctrine_Record
         parent::__construct($tableName);
     }
 
+    /**
+     * Set table definition.
+     *
+     * @uses parent::setTableName()
+     * @uses parent::hasColumn()
+     *
+     * @return void
+     */
     public function setTableDefinition()
     {
         $this->setTableName('sessiondata');

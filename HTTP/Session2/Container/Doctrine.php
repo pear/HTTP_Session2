@@ -38,7 +38,7 @@ spl_autoload_register(array('Doctrine', 'autoload'));
  * HTTP_Session2_Container_Doctrine_Table
  */
 if (!class_exists('HTTP_Session2_Container_Doctrine_Table')) {
-    require_once 'HTTP/Session2/Container/Doctrine/Table.php';
+    include_once 'HTTP/Session2/Container/Doctrine/Table.php';
 }
 
 /**
@@ -61,6 +61,7 @@ if (!class_exists('HTTP_Session2_Container_Doctrine_Table')) {
  * @version  Release: @package_version@
  * @link     http://pear.php.net/package/HTTP_Session2
  * @uses     HTTP_Session2_Container
+ * @todo     Make all private, protected.
  */
 class HTTP_Session2_Container_Doctrine extends HTTP_Session2_Container
 {
