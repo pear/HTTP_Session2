@@ -1,13 +1,13 @@
 --TEST--
 HTTP_Session2 with MDB2 container (and sqlite) write and read
 --SKIPIF--
-<?php 
+<?php
 include_once 'MDB2.php';
 if (!class_exists('MDB2')) {
-    die('Please install MDB2 (and its SQLite driver) to run this test.');
+    die('Skip Please install MDB2 (and its SQLite driver) to run this test.');
 }
 if (!extension_loaded('sqlite')) {
-    die('Please install the sqlite extension to run this test.'):
+    die('Skip Please install the sqlite extension to run this test.'):
 }
 ?>
 --FILE--

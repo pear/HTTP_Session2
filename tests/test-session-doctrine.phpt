@@ -1,16 +1,16 @@
 --TEST--
 HTTP_Session2 with phpDoctrine container (and sqlite) write and read
 --SKIPIF--
-<?php 
+<?php
 if (!extension_loaded('pdo')) {
-    die('This test needs pdo, please make sure it\'s loaded.');
+    die('Skip This test needs pdo, please make sure it\'s loaded.');
 }
 if (!extension_loaded('pdo_sqlite')) {
-    die('This test needs pdo_sqlite, please make sure it\'s loaded.');
+    die('Skip This test needs pdo_sqlite, please make sure it\'s loaded.');
 }
 include_once 'Doctrine/lib/Doctrine.php';
 if (!class_exists('Doctrine')) {
-    die('This test needs phpDoctrine, please make sure it\'s installed.');
+    die('Skip This test needs phpDoctrine, please make sure it\'s installed.');
 }
 ?>
 --FILE--
