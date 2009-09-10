@@ -4,10 +4,10 @@ HTTP_Session2 with MDB2 container (and sqlite) write and read
 <?php
 include_once 'MDB2.php';
 if (!class_exists('MDB2')) {
-    die('Skip Please install MDB2 (and its SQLite driver) to run this test.');
+    die('skip Please install MDB2 (and its SQLite driver) to run this test.');
 }
 if (!extension_loaded('sqlite')) {
-    die('Skip Please install the sqlite extension to run this test.'):
+    die('skip Please install the sqlite extension to run this test.'):
 }
 ?>
 --FILE--
@@ -78,10 +78,11 @@ try {
 $_tmp = dirname(__FILE__) . '/tmp';
 $_db  = $_tmp . '/test.db';
 unlink($_db);
-rmdir($_tmp);
+
+include dirname(__FILE__) . '/functions.php';
+unlinkRecursive($_tmp, true);
 
 --EXPECT--
 string(9) "Setting.."
 string(12) "Retrieving.."
 string(6) "foobar"
-
