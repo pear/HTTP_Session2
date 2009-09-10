@@ -1,6 +1,6 @@
 <?php
 /**
- * HTTP_Session2_Container_Doctrine_Table
+ * HTTP_Session2_Container_Doctrine_Record
  *
  * PHP Version 5
  *
@@ -8,12 +8,12 @@
  * @package  HTTP_Session2
  * @author   Till Klampaeckel <till@php.net>
  * @license  http://www.opensource.org/licenses/bsd-license.php The BSD License
- * @version  CVS: $Id$
+ * @version  SVN: $Id$
  * @link     http://pear.php.net/package/HTTP_Session2
  */
 
 /**
- * An interface to Doctrine_Table for HTTP_Session2.
+ * An interface to Doctrine_Record for HTTP_Session2.
  *
  * @category HTTP
  * @package  HTTP_Session2
@@ -24,28 +24,8 @@
  * @uses     Doctrine_Record
  * @todo     Fix variable naming. ;-)
  */
-class HTTP_Session2_Container_Doctrine_Table extends Doctrine_Record
+class HTTP_Session2_Container_Doctrine_Record extends Doctrine_Record
 {
-    /**
-     * @var string $tillTable
-     */
-    protected $tillTable;
-
-    /**
-     * __construct
-     * 
-     * @param string $tableName The name of the table
-     * 
-     * @return HTTP_Session2_Container_Doctrine_Table
-     * @uses   parent::__construct()
-     * @uses   self::$tillTable
-     */
-    public function __construct($tableName = 'sessiondata')
-    {
-        $this->tillTable = $tableName;
-        parent::__construct($tableName);
-    }
-
     /**
      * Set table definition.
      *
@@ -59,7 +39,8 @@ class HTTP_Session2_Container_Doctrine_Table extends Doctrine_Record
         $this->setTableName('sessiondata');
 
         $this->hasColumn('id', 'string', 32, array('primary' => true));
-        $this->hasColumn('expire', 'integer');
+        $this->hasColumn('expiry', 'integer');
         $this->hasColumn('data', 'text');
     }
 }
+

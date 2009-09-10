@@ -35,11 +35,19 @@ require_once 'Doctrine/lib/Doctrine.php';
 spl_autoload_register(array('Doctrine', 'autoload'));
 
 /**
+ * HTTP_Session2_Container_Doctrine_Record
+ */
+if (!class_exists('HTTP_Session2_Container_Doctrine_Record')) {
+    include_once 'HTTP/Session2/Container/Doctrine/Record.php';
+}
+
+/**
  * HTTP_Session2_Container_Doctrine_Table
  */
-if (!class_exists('HTTP_Session2_Container_Doctrine_Table')) {
-    include_once 'HTTP/Session2/Container/Doctrine/Table.php';
+if (!class_exists('HTTP_Session2_Container_Doctrine_RecordTable')) {
+    include_once 'HTTP/Session2/Container/Doctrine/RecordTable.php';
 }
+
 
 /**
  * Database container for session data
@@ -67,16 +75,16 @@ class HTTP_Session2_Container_Doctrine extends HTTP_Session2_Container
 {
     /**
      * Doctrine connection object.
-     * 
+     *
      * XXX depends on the used database backend, for example Mysql, etc..
      *
      * @var mixed Doctrine_Connection_XXX
      */
     private $_db = null;
-    
+
     /**
      * Doctrine_Record
-     * 
+     *
      * @var Doctrine_Record An instance of the class where we defined the
      *                      session table preferences.
      */
@@ -148,7 +156,7 @@ class HTTP_Session2_Container_Doctrine extends HTTP_Session2_Container
     protected function setDefaults()
     {
         $this->options['dsn']          = null;
-        $this->options['table']        = 'sessiondata';
+        $this->options['table']        = 'HTTP_Session2_Container_Doctrine_Record';
         $this->options['autooptimize'] = false;
     }
 
@@ -192,15 +200,14 @@ class HTTP_Session2_Container_Doctrine extends HTTP_Session2_Container
     public function read($id)
     {
         try {
-            $expire = new Doctrine_Expression('NOW()');
-            
+            $expiry = new Doctrine_Expression('NOW()');
             $tableName = $this->options['table'];
-            $session   = $this->_db->getTable('HTTP_Session2_Container_Doctrine_Table');
+            $table     = Doctrine::getTable($tableName);
 
             //throw new HTTP_Session2_Exception(var_export(get_class_methods($this->_db), true));
             //throw new HTTP_Session2_Exception(var_export($session, true));
 
-            $result = $session->find($id);
+            $result = $table->find($id);
             if ($result === false) {
                 return $result;
             }
@@ -214,10 +221,10 @@ class HTTP_Session2_Container_Doctrine extends HTTP_Session2_Container
                 throw new HTTP_Session2_Exception($msg,
                     HTTP_Session2::ERR_SYSTEM_PRECONDITION);
             }
-            
+
             $this->_crc = $result->data . crc32($result->data);
             return $result->data;
-        
+
         } catch (Doctrine_Exception $e) {
             throw new HTTP_Session2_Exception($e->getMessage(),
                 $e->getCode(), $e);
@@ -237,39 +244,28 @@ class HTTP_Session2_Container_Doctrine extends HTTP_Session2_Container
     {
         try {
             $tableName = $this->options['table'];
-            $table     = new HTTP_Session2_Container_Doctrine_Table($tableName);
-            
+            $table     = Doctrine::getTable($tableName);
+
             if ((false !== $this->_crc)
                 && ($this->_crc === strlen($data) . crc32($data))) {
                 /* $_SESSION hasn't been touched, no need to update the blob column */
                 $data = $table->find(md5($id));
-                $data->merge(
-                    array(
-                        'expiry' => time() + ini_get('session.gc_maxlifetime')
-                    )
-                );
+                $data->expiry = time() + ini_get('session.gc_maxlifetime');
                 $data->save();
                 return true;
             }
-            
-            /* Check if table row already exists */
-            $result = $table->find(md5($id));
-            if ($result === null) {
-                /* Insert new row into table */
-                $table->id     = md5($id);
-                $table->expiry = time() + ini_get('session.gc_maxlifetime');
-                $table->data   = $data;
-                $table->save();
 
-                return true;
+            /* Check if table row already exists */
+            $id = md5($id);
+            $result = $table->find($id);
+            if (!$result) {
+                /* Insert new row into table */
+                $result = new $tableName();
+                $result->id     = $id;
             }
 
-            $result->merge(
-                array(
-                    'expiry' => time() + ini_get('session.gc_maxlifetime'),
-                    'data'   => $data
-                )
-            );
+            $result->expiry = time() + ini_get('session.gc_maxlifetime');
+            $result->data = $data;
             $result->save();
 
         } catch (Doctrine_Exception $e) {
@@ -288,9 +284,12 @@ class HTTP_Session2_Container_Doctrine extends HTTP_Session2_Container
     public function destroy($id)
     {
         try {
-            $table   = Doctrine::getTable('HTTP_Session2_Doctrine_Table');
+            $tableName = $this->options['table'];
+            $table     = Doctrine::getTable($tableName);
             $session = $table->find(md5($id));
-            $session->delete();
+            if ($session) {
+                $session->delete();
+            }
         } catch (Doctrine_Exception $e) {
             throw new HTTP_Session2_Exception ($e->getMessage(), $e->getCode(), $e);
         }
@@ -312,14 +311,13 @@ class HTTP_Session2_Container_Doctrine extends HTTP_Session2_Container
     public function gc($maxlifetime)
     {
         try {
-
             $tableName = $this->options['table'];
-            $table     = new HTTP_Session2_Container_Doctrine_Table($tableName);
-            
+            $table     = Doctrine::getTable($tableName);
+
             $query = new Doctrine_Query;
             $query->from($table);
             $query->where('expiry < ?', time());
-            
+
             $result = $query->execute();
             $result->delete();
 
@@ -351,33 +349,31 @@ class HTTP_Session2_Container_Doctrine extends HTTP_Session2_Container
         }
 
         try {
-        
+
             $tableName = $this->options['table'];
-            $source    = new HTTP_Session2_Container_Doctrine_Table($tableName);
-            $replicate = new HTTP_Session2_Container_Doctrine_Table($target);
-            
+            $table     = Doctrine::getTable($tableName);
+            $replicate = Doctrine::getTable($target);
+
             // Check if table row already exists
-            $session = $source->find(md5($id));
-    
+            $id = md5($id);
+            $session = $table->find($id);
+            $replica = $replicate->find($id);
+
             // Insert new row into dest table
-            if ($session === null) {
-                
-                $replicate->id     = $source->id;
-                $replicate->data   = $source->data;
-                $replicate->expiry = $source->expiry;
-                $replicate->save();
-    
-                return true;
+            if (!$replica && !$session) {
+                $replica = new $target();
+                $replica->id     = $id;
+            } elseif ($session) {
+                $replica = new $target();
+                $replica->id     = $id;
+                $replica->expiry = $session->expiry;
+                $replica->data   = $session->data;
+            } else {
+                $replica->data   = null;
+                $replica->data   = null;
             }
-            
-            $session->merge(
-                array(
-                    'data'   => $source->data,
-                    'expiry' => $source->expiry
-                )
-            );
-            $session->save();
-        
+
+            $replica->save();
         } catch (Doctrine_Exception $e) {
             throw HTTP_Session2_Exception($e->getMessage(), $e->getCode(), $e);
         }
@@ -385,3 +381,4 @@ class HTTP_Session2_Container_Doctrine extends HTTP_Session2_Container
         return true;
     }
 }
+
