@@ -29,11 +29,9 @@ while(++$nCount <= 2) {
 }
 --CLEAN--
 <?php
+include dirname(__FILE__) . '/functions.php';
 $_tmp = dirname(__FILE__) . '/tmp';
-$_id  = 1234;
-
-unlink($_tmp . '/' . 'sess_' . $_id);
-rmdir($_tmp);
+unlinkRecursive($_tmp, true);
 --EXPECT--
 string(9) "Setting.."
 string(12) "Retrieving.."
