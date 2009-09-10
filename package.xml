@@ -91,6 +91,7 @@ TO BE DONE!
    </dir> <!-- /HTTP -->
    <dir name="tests">
     <file role="test" baseinstalldir="HTTP_Session2" name="AllTests.php" />
+    <file role="test" baseinstalldir="HTTP_Session2" name="functions.php" />
     <file role="test" baseinstalldir="HTTP_Session2" name="test-session.phpt" />
     <file role="test" baseinstalldir="HTTP_Session2" name="test-session2.phpt" />
     <file role="test" baseinstalldir="HTTP_Session2" name="test-session-doctrine.phpt">

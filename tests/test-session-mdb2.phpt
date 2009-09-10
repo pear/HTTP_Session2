@@ -2,8 +2,7 @@
 HTTP_Session2 with MDB2 container (and sqlite) write and read
 --SKIPIF--
 <?php
-include_once 'MDB2.php';
-if (!class_exists('MDB2')) {
+if (false === @include_once 'MDB2.php') {
     die('skip Please install MDB2 (and its SQLite driver) to run this test.');
 }
 if (!extension_loaded('sqlite')) {
