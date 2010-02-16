@@ -9,19 +9,26 @@
  */
 function unlinkRecursive($dir, $deleteRootToo = false)
 {
-    if(!$dh = @opendir($dir)) {
+    if (!is_dir($dir) {
+        return;
+    }
+
+    if (!$dh = opendir($dir)) {
         return;
     }
     while (false !== ($obj = readdir($dh))) {
-        if($obj == '.' || $obj == '..') {
+        if ($obj == '.' || $obj == '..') {
             continue;
         }
 
-        if (!@unlink($dir . '/' . $obj)) {
-            unlinkRecursive($dir.'/'.$obj, true);
+        if (file_exists($dir . '/' . $obj)) {
+            if (!@unlink($dir . '/' . $obj)) {
+                unlinkRecursive($dir.'/'.$obj, true);
+            }
         }
     }
     closedir($dh);
+
     if ($deleteRootToo) {
         @rmdir($dir);
     }
