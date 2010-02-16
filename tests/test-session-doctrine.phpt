@@ -77,8 +77,12 @@ try {
 <?php
 $_tmp = dirname(__FILE__) . '/tmp';
 $_db  = $_tmp . '/test.db';
-unlink($_db);
-rmdir($_tmp);
+if (file_exists($_db)) {
+    unlink($_db);
+}
+if (dir_exists($_tmp)) {
+    rmdir($_tmp);
+}
 --EXPECT--
 string(9) "Setting.."
 string(12) "Retrieving.."
