@@ -80,7 +80,7 @@ $_db  = $_tmp . '/test.db';
 if (file_exists($_db)) {
     unlink($_db);
 }
-if (dir_exists($_tmp)) {
+if (is_dir($_tmp)) {
     rmdir($_tmp);
 }
 --EXPECT--
