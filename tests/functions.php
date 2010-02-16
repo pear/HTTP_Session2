@@ -9,7 +9,7 @@
  */
 function unlinkRecursive($dir, $deleteRootToo = false)
 {
-    if (!is_dir($dir) {
+    if (!is_dir($dir)) {
         return;
     }
 
