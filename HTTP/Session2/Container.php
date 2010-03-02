@@ -86,6 +86,16 @@ abstract class HTTP_Session2_Container implements HTTP_Session2_Container_Interf
     }
 
     /**
+     * Call session_write_close() in destructor for compatibility with PHP >= 5.0.5
+     *
+     * @return void
+     */
+    public function __destruct()
+    {
+        session_write_close();
+    }
+
+    /**
      * Set some default options
      *
      * @return void
