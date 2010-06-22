@@ -200,7 +200,7 @@ class HTTP_Session2_Container_Doctrine extends HTTP_Session2_Container
     public function read($id)
     {
         try {
-            $expiry = new Doctrine_Expression('NOW()');
+            $expiry    = new Doctrine_Expression('NOW()');
             $tableName = $this->options['table'];
             $table     = Doctrine::getTable($tableName);
 

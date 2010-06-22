@@ -43,4 +43,3 @@ class HTTP_Session2_Container_Doctrine_Record extends Doctrine_Record
         $this->hasColumn('data', 'text');
     }
 }
-
