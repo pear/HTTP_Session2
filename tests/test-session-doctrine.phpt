@@ -2,6 +2,10 @@
 HTTP_Session2 with phpDoctrine container (and sqlite) write and read
 --SKIPIF--
 <?php
+$skip = true;
+if ($skip === true) {
+    die('Skip This is an incomplete test.');
+}
 if (!extension_loaded('pdo')) {
     die('Skip This test needs pdo, please make sure it\'s loaded.');
 }
@@ -35,8 +39,15 @@ function createDB($db)
     try {
         $db   = Doctrine_Manager::connection("sqlite:///$db");
         $path = '@include_path@/HTTP/Session2/Container/Doctrine';
-        //$path = '/usr/local/share/pear/HTTP/Session2/Container/Doctrine';
-        $sql  = Doctrine::generateSqlFromModels($path);
+
+        if (strstr($path, '@include_path@')) { // for from VCS
+            $path = str_replace(
+                '@include_path@',
+                realpath(dirname(__FILE__) . '/../'),
+                $path
+            );
+        }
+        $sql = Doctrine::generateSqlFromModels($path);
         $db->execute($sql);
     } catch (Doctrine_Exception $e) {
         if (!strstr($e->getMessage(), 'already exists')) {
@@ -76,13 +87,8 @@ try {
 --CLEAN--
 <?php
 $_tmp = dirname(__FILE__) . '/tmp';
-$_db  = $_tmp . '/test.db';
-if (file_exists($_db)) {
-    unlink($_db);
-}
-if (is_dir($_tmp)) {
-    rmdir($_tmp);
-}
+include dirname(__FILE__) . '/functions.php';
+unlinkRecursive($_tmp);
 --EXPECT--
 string(9) "Setting.."
 string(12) "Retrieving.."
