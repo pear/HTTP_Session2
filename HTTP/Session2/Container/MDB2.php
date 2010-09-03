@@ -69,6 +69,11 @@ class HTTP_Session2_Container_MDB2 extends HTTP_Session2_Container
     protected $crc = false;
 
     /**
+     * @var array $lastDbQuery
+     */
+    protected $lastDbQuery = array('affected_rows' => null, 'query' => null);
+
+    /**
      * Constrtuctor method
      *
      * $options is an array with the options.<br>
@@ -244,11 +249,15 @@ class HTTP_Session2_Container_MDB2 extends HTTP_Session2_Container
                     $time);
             }
         }
-        $result = $this->db->query($query);
+        $result = $this->db->exec($query);
         if (MDB2::isError($result)) {
             throw new HTTP_Session2_Exception($result->getUserInfo(),
                     $result->getCode());
         }
+
+        $this->lastDbQuery['affected_rows'] = $result;
+        $this->lastDbQuery['query']         = $query;
+
         return true;
     }
 
@@ -266,11 +275,15 @@ class HTTP_Session2_Container_MDB2 extends HTTP_Session2_Container
             $this->options['table'],
             $this->db->quote(md5($id)));
 
-        $result = $this->db->query($query);
+        $result = $this->db->exec($query);
         if (MDB2::isError($result)) {
             throw new HTTP_Session2_Exception ($result->getMessage(),
                 $result->getCode());
         }
+
+        $this->lastDbQuery['affected_rows'] = $result;
+        $this->lastDbQuery['query']         = $query;
+
         return true;
     }
 
@@ -291,11 +304,14 @@ class HTTP_Session2_Container_MDB2 extends HTTP_Session2_Container
             $this->options['table'],
             $this->getTime());
 
-        $result = $this->db->query($query);
+        $result = $this->db->exec($query);
         if (MDB2::isError($result)) {
             throw new HTTP_Session2_Exception($result->getMessage(),
                 $result->getCode());
         }
+
+        $this->lastDbQuery['affected_rows'] = $result;
+        $this->lastDbQuery['query']         = $query;
 
         if ($this->options['autooptimize']) {
             $this->db->loadModule('Manager');
@@ -349,12 +365,25 @@ class HTTP_Session2_Container_MDB2 extends HTTP_Session2_Container
             $query .= " AND src.id = " . $this->db->quote(md5($id), 'text');
         }
 
-        $result = $this->db->query($query);
+        $result = $this->db->exec($query);
         if (MDB2::isError($result)) {
             throw new HTTP_Session2_Exception($result->getDebugInfo(),
                 $result->getCode());
         }
 
+        $this->lastDbQuery['affected_rows'] = $result;
+        $this->lastDbQuery['query']         = $query;
+
         return true;
+    }
+
+    /**
+     * For debugging, testing.
+     *
+     * @return array
+     */
+    public function getLastDbQuery()
+    {
+        return $this->lastDbQuery;
     }
 }
