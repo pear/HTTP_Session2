@@ -144,6 +144,12 @@ class HTTP_Session2
     const ERR_NOT_IMPLEMENTED = 670;
 
     /**
+     * @const ERR_INVALID_ARGUMENT When an argument passed to a function doesn't
+     *                             meet an expectation.
+     */
+    const ERR_INVALID_ARGUMENT = 671;
+
+    /**
      * Container instance
      */
     public static $container;

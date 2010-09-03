@@ -64,6 +64,13 @@ require_once 'HTTP/Session2/Container/Interface.php';
 abstract class HTTP_Session2_Container implements HTTP_Session2_Container_Interface
 {
     /**
+     * @var int $time A timestamp.
+     * @see parent::write()
+     * @see self::getTime()
+     * @see self::setTime()
+     */
+    protected $time;
+    /**
      * Additional options for the container object
      *
      * @var array
@@ -134,5 +141,40 @@ abstract class HTTP_Session2_Container implements HTTP_Session2_Container_Interf
             array($this, 'write'),
             array($this, 'destroy'),
             array($this, 'gc'));
+    }
+
+    /**
+     * Return either {@link self::$time} or time().
+     *
+     * @return int
+     * @see    parent::write()
+     */
+    public function getTime()
+    {
+        if ($this->time === null) {
+            $this->time = time();
+        }
+        return $this->time;
+    }
+
+    /**
+     * Override the time(). This is great for unit testing.
+     *
+     * @return $this
+     * @throws HTTP_Session2_Exception When $time is not an int.
+     * @uses   self::$time
+     * @see    parent::write()
+     * @see    self::getTime()
+     */
+    public function setTime($time)
+    {
+        if (is_int($time)) {
+            throw new HTTP_Session2_Exception(
+                '$time should be an integer.',
+                HTTP_Session2::ERR_INVALID_ARGUMENT
+            );
+        }
+        $this->time = $time;
+        return $this;
     }
 }

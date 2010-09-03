@@ -197,7 +197,7 @@ class HTTP_Session2_Container_DB extends HTTP_Session2_Container
         $query = sprintf("SELECT data FROM %s WHERE id = %s AND expiry >= %d",
             $this->options['table'],
             $this->_db->quote(md5($id)),
-            time());
+            $this->getTime());
 
         $result = $this->_db->getOne($query);
         if (DB::isError($result)) {
@@ -219,15 +219,17 @@ class HTTP_Session2_Container_DB extends HTTP_Session2_Container
      */
     public function write($id, $data)
     {
+        $time = $this->getTime();
+
         if ((false !== $this->_crc)
             && ($this->_crc === strlen($data) . crc32($data))) {
             /* $_SESSION hasn't been touched, no need to update the blob column */
             $query = "UPDATE %s SET expiry = %d WHERE id = %s AND expiry >= %d";
             $query = sprintf($query,
                 $this->options['table'],
-                time() + ini_get('session.gc_maxlifetime'),
+                $time + ini_get('session.gc_maxlifetime'),
                 $this->_db->quote(md5($id)),
-                time());
+                $time);
         } else {
             /* Check if table row already exists */
             $query = sprintf("SELECT COUNT(id) FROM %s WHERE id = '%s'",
@@ -245,7 +247,7 @@ class HTTP_Session2_Container_DB extends HTTP_Session2_Container
                 $query = sprintf($query,
                     $this->options['table'],
                     $this->_db->quote(md5($id)),
-                    time() + ini_get('session.gc_maxlifetime'),
+                    $time + ini_get('session.gc_maxlifetime'),
                     $this->_db->quote($data));
             } else {
                 /* Update existing row */
@@ -253,10 +255,10 @@ class HTTP_Session2_Container_DB extends HTTP_Session2_Container
                 $query .= " WHERE id = %s AND expiry >= %d";
                 $query  = sprintf($query,
                     $this->options['table'],
-                    time() + ini_get('session.gc_maxlifetime'),
+                    $time + ini_get('session.gc_maxlifetime'),
                     $this->_db->quote($data),
                     $this->_db->quote(md5($id)),
-                    time());
+                    $time);
             }
         }
         $result = $this->_db->query($query);
@@ -300,7 +302,7 @@ class HTTP_Session2_Container_DB extends HTTP_Session2_Container
     {
         $query = sprintf("DELETE FROM %s WHERE expiry < %d",
             $this->options['table'],
-            time());
+        );
 
         $result = $this->_db->query($query);
         if (DB::isError($result)) {

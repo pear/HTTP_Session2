@@ -141,7 +141,7 @@ class HTTP_Session2_Container_Memcache extends HTTP_Session2_Container
         $this->mc->set($this->options['prefix'] . $id,
             $data,
             MEMCACHE_COMPRESSED,
-            time() + ini_get('session.gc_maxlifetime'));
+            $this->getTime() + ini_get('session.gc_maxlifetime'));
 
         return true;
     }
