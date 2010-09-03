@@ -12,6 +12,13 @@ if (!extension_loaded('pdo')) {
 if (!extension_loaded('pdo_sqlite')) {
     die('Skip This test needs pdo_sqlite, please make sure it\'s loaded.');
 }
+/**
+ * @desc For unittesting from an svn checkout and to make Daniel happy.
+ */
+$vendorPath = realpath(dirname(__FILE__) . '/../vendor');
+if ($vendorPath !== false) {
+    set_include_path($vendorPath .  DIRECTORY_SEPARATOR . get_include_path());
+}
 include_once 'Doctrine/lib/Doctrine.php';
 if (!class_exists('Doctrine')) {
     die('Skip This test needs phpDoctrine, please make sure it\'s installed.');
