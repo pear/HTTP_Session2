@@ -131,9 +131,9 @@ class HTTP_Session2
      *        E.g. Not enough permissions to override ini-settings.
      */
     const ERR_SYSTEM_PERM = 668;
-    
+
     /**
-     * @const ERR_SYSTEM_PRECONDITION - Precondition failed. E.g. error occured and 
+     * @const ERR_SYSTEM_PRECONDITION - Precondition failed. E.g. error occured and
      *        HTTP_Session2 can't start up, etc..
      */
     const ERR_SYSTEM_PRECONDITION = 669;
@@ -383,9 +383,9 @@ class HTTP_Session2
      */
     public static function sessionValidThru()
     {
-        if (
-            !isset($_SESSION['__HTTP_Session2_Idle_TS'])
-            || !isset($_SESSION['__HTTP_Session2_Idle'])) {
+        if (!isset($_SESSION['__HTTP_Session2_Idle_TS'])
+            || !isset($_SESSION['__HTTP_Session2_Idle'])
+        ) {
             return 0;
         }
         return $_SESSION['__HTTP_Session2_Idle_TS']
@@ -399,15 +399,16 @@ class HTTP_Session2
      */
     public static function isExpired()
     {
-        if (
-            isset($_SESSION['__HTTP_Session2_Expire'])
-            && $_SESSION['__HTTP_Session2_Expire'] > 0
-            && isset($_SESSION['__HTTP_Session2_Expire_TS'])
-            &&
-            (
-                $_SESSION['__HTTP_Session2_Expire_TS']
-                + $_SESSION['__HTTP_Session2_Expire']
-            ) <= time()) {
+        if (!isset($_SESSION['__HTTP_Session2_Expire'])) {
+            return false;
+        }
+        if (!isset($_SESSION['__HTTP_Session2_Expire_TS'])) {
+            return false;
+        }
+        $expire   = $_SESSION['__HTTP_Session2_Expire'];
+        $expireTS = $_SESSION['__HTTP_Session2_Expire_TS'];
+
+        if ($expire > 0 && (($expire+$expireTS) <= time()) {
             return true;
         }
         return false;
@@ -420,14 +421,17 @@ class HTTP_Session2
      */
     public static function isIdle()
     {
-        if (
-            isset($_SESSION['__HTTP_Session2_Idle'])
-            && $_SESSION['__HTTP_Session2_Idle'] > 0
-            && isset($_SESSION['__HTTP_Session2_Idle_TS'])
-            && (
-                $_SESSION['__HTTP_Session2_Idle_TS']
-                + $_SESSION['__HTTP_Session2_Idle']
-            ) <= time()) {
+        if (!isset($_SESSION['__HTTP_Session2_Idle'])) {
+            return false;
+        }
+        if (!isset($_SESSION['__HTTP_Session2_Idle_TS'])) {
+            return false;
+        }
+
+        $idle   = $_SESSION['__HTTP_Session2_Idle'];
+        $idleTs = $_SESSION['__HTTP_Session2_Idle_TS'];
+
+        if ($idle > 0 && (($idle+$idleTs) <= time()) {
             return true;
         }
         return false;
@@ -454,21 +458,28 @@ class HTTP_Session2
      * It will throw an Exception if it's not able to set the session.use_cookie
      * property.
      *
-     * It returns the previous value of this property.
+     * It returns the previous value of this property. For a detailed description of
+     * all parameters (aside from $useCookies see {@link self::setCookieVars()}.
      *
      * @param boolean $useCookies If specified it will replace the previous value of
      *                            this property. By default 'null', which doesn't
      *                            change any setting on your system. If you supply a
      *                            parameter, please supply 'boolean'.
+     * @param string  $path       session.save_dir
+     * @param string  $domain     session.cookie_domain
+     * @param boolean $secure     session.cookie_secure
+     * @param boolean $httpOnly   session.cookie_httponly
      *
      * @return boolean The previous value of the property
-     * 
+     *
      * @throws HTTP_Session2_Exception If ini_set() fails!
      * @see    session_set_cookie_params()
      * @link   http://php.net/manual/en/function.session-set-cookie-params.php
      */
-    public static function useCookies($useCookies = null)
-    {
+    public static function useCookies($useCookies = null, $path = '/', $domain = '',
+        $secure = false, $httpOnly = false
+    ) {
+
         $return = false;
         if (ini_get('session.use_cookies') == '1') {
             $return = true;
@@ -476,6 +487,7 @@ class HTTP_Session2
         if ($useCookies !== null) {
             if ($useCookies === true) {
                 $status = ini_set('session.use_cookies', 1);
+                self::setCookieVars($path, $domain, $secure, $httpOnly);
             } else {
                 $status = ini_set('session.use_cookies', 0);
             }
@@ -487,6 +499,82 @@ class HTTP_Session2
             }
         }
         return $return;
+    }
+
+    /**
+     * Sets the cookie variables.
+     *
+     * @param string  $path     It specifies the path on the server in which the
+     *                          cookie will be available on. By default is set to
+     *                          '/', that is, available within the entire domain.
+     *                          For example, set to '/foo/' it will only be
+     *                          available within /foo/ directory and all sub-
+     *                          directories of domain.
+     * @param string  $domain   It specifies the domain that the cookie will be
+     *                          available. To make it available to subdomains of
+     *                          example.com the you'd set it to '.example.com'.
+     * @param boolean $secure   Indicates that the cookie should only be
+     *                          transmitted over a secure HTTPS connection from
+     *                          the client. When set to TRUE, the cookie will only
+     *                          be set if a secure connection exists.
+     * @param boolean $httpOnly When TRUE the cookie will be made accessible
+     *                          only through the HTTP protocol. This means that
+     *                          the cookie won't be accessible by scripting
+     *                          languages, such as JavaScript. This setting can
+     *                          effectively help to reduce identity theft
+     *                          through XSS attacks (although it is not
+     *                          supported by all browsers).
+     *                          Added in PHP 5.2.0. TRUE or FALSE.
+     *
+     * @return void
+     * @throws HTTP_Session2_Exception When ini_set() fails!
+     * @see    session_set_cookie_params()
+     */
+    protected static function setCookieVars($path, $domain, $secure, $httpOnly)
+    {
+        // path
+        $status = ini_set(
+            'session.cookie_path',
+            (!is_null($path) && strlen($path) > 0)? $path : null
+        );
+
+        // Exception
+        if ($status === false) {
+            throw new HTTP_Session2_Exception(
+                'Could not set session.cookie_path, please check permissions.',
+                self::ERR_SYSTEM_PERM);
+        }
+
+        // domain
+        $status = ini_set(
+            'session.cookie_domain',
+            (!is_null($domain) && strlen($domain) > 0)? $domain : null
+        );
+
+        // Exception
+        if ($status === false) {
+            throw new HTTP_Session2_Exception(
+                'Could not set session.cookie_domain, please check permissions.',
+                self::ERR_SYSTEM_PERM);
+        }
+
+        // secure
+        $status = ini_set('session.cookie_secure', intval($secure));
+        // Exception
+        if ($status === false) {
+            throw new HTTP_Session2_Exception(
+                'Could not set session.cookie_secure, please check permissions.',
+                self::ERR_SYSTEM_PERM);
+        }
+
+        // http only
+        $status = ini_set('session.cookie_httponly', intval($httpOnly));
+        // Exception
+        if ($status === false) {
+            throw new HTTP_Session2_Exception(
+                'Could not set session.cookie_httponly, please check permissions.',
+                self::ERR_SYSTEM_PERM);
+        }
     }
 
     /**
@@ -748,10 +836,11 @@ class HTTP_Session2
     public static function setGcProbability($gcProbability = null)
     {
         $return = ini_get('session.gc_probability');
-        if (isset($gcProbability)  &&
-            is_int($gcProbability) &&
-            $gcProbability >= 1    &&
-            $gcProbability <= 100) {
+        if (isset($gcProbability)
+            && is_int($gcProbability)
+            && $gcProbability >= 1
+            && $gcProbability <= 100
+        ) {
             ini_set('session.gc_probability', $gcProbability);
         }
         return $return;
