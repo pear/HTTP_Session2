@@ -408,7 +408,7 @@ class HTTP_Session2
         $expire   = $_SESSION['__HTTP_Session2_Expire'];
         $expireTS = $_SESSION['__HTTP_Session2_Expire_TS'];
 
-        if ($expire > 0 && (($expire+$expireTS) <= time()) {
+        if ($expire > 0 && (($expire+$expireTS) <= time())) {
             return true;
         }
         return false;
@@ -431,7 +431,7 @@ class HTTP_Session2
         $idle   = $_SESSION['__HTTP_Session2_Idle'];
         $idleTs = $_SESSION['__HTTP_Session2_Idle_TS'];
 
-        if ($idle > 0 && (($idle+$idleTs) <= time()) {
+        if ($idle > 0 && (($idle+$idleTs) <= time())) {
             return true;
         }
         return false;
