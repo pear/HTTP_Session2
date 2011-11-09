@@ -1,11 +1,11 @@
 <?php
 /**
  * Master Unit Test Suite file for HTTP_Session2
- * 
- * This top-level test suite file organizes 
- * all class test suite files, 
- * so that the full suite can be run 
- * by PhpUnit or via "pear run-tests -u". 
+ *
+ * This top-level test suite file organizes
+ * all class test suite files,
+ * so that the full suite can be run
+ * by PhpUnit or via "pear run-tests -u".
  *
  * PHP version 5
  *
@@ -14,7 +14,7 @@
  * @subpackage UnitTesting
  * @author     Chuck Burgess <ashnazg@php.net>
  * @license    http://www.opensource.org/licenses/bsd-license.php New BSD License
- * @version    CVS: $Id$
+ * @version    SVN: $Id$
  * @link       http://pear.php.net/package/HTTP_Session2
  * @since      0.8.0
  */
@@ -45,9 +45,9 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
 /*
  * Files needed by PhpUnit
  */
-require_once 'PHPUnit/Framework.php';
-require_once 'PHPUnit/TextUI/TestRunner.php';
-require_once 'PHPUnit/Extensions/PhptTestSuite.php';
+require_once 'PHPUnit/Autoload.php';
+//require_once 'PHPUnit/TextUI/TestRunner.php';
+//require_once 'PHPUnit/Extensions/PhptTestSuite.php';
 
 /*
  * You must add each additional class-level test suite file here
@@ -61,11 +61,11 @@ define('HTTP_Session2_DIR_PHPT', dirname(__FILE__));
 
 /**
  * Master Unit Test Suite class for HTTP_Session2
- * 
- * This top-level test suite class organizes 
- * all class test suite files, 
- * so that the full suite can be run 
- * by PhpUnit or via "pear run-tests -up HTTP_Session2". 
+ *
+ * This top-level test suite class organizes
+ * all class test suite files,
+ * so that the full suite can be run
+ * by PhpUnit or via "pear run-tests -up HTTP_Session2".
  *
  * @category   XML
  * @package    HTTP_Session2
@@ -97,7 +97,7 @@ class HTTP_Session2_AllTests
      * @return PHPUnit_Framework_TestSuite a master test suite
      *                                     containing all class test suites
      * @uses PHPUnit_Framework_TestSuite
-     */ 
+     */
     public static function suite()
     {
         $suite = new PHPUnit_Framework_TestSuite(
