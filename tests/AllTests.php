@@ -67,7 +67,7 @@ define('HTTP_Session2_DIR_PHPT', dirname(__FILE__));
  * so that the full suite can be run
  * by PhpUnit or via "pear run-tests -up HTTP_Session2".
  *
- * @category   XML
+ * @category   HTTP
  * @package    HTTP_Session2
  * @subpackage UnitTesting
  * @author     Chuck Burgess <ashnazg@php.net>
