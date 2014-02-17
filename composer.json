@@ -20,7 +20,7 @@
     "include-path": [
         "./"
     ],
-    "license": "The BSD License",
+    "license": "BSD-2-Clause",
     "name": "pear/http_session2",
     "support": {
         "issues": "http://pear.php.net/bugs/search.php?cmd=display&package_name[]=HTTP_Session2",
@@ -32,5 +32,10 @@
     },
     "require-dev": {
         "phpunit/phpunit": "*"
+    },
+    "suggest": {
+        "ext-memcache": "Install ext/memcache for Memcache support",
+        "pear/MDB2": "Install pear/mdb2 for MDB2 database support",
+        "pear/DB": "Intsall pear/db for DB database support"
     }
 }
