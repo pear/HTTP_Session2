@@ -1,0 +1,36 @@
+{
+    "authors": [
+        {
+            "email": "till@php.net",
+            "name": "Till Klampaeckel",
+            "role": "Lead"
+        },
+        {
+            "email": "bate@php.net",
+            "name": "Marco Kaiser",
+            "role": "Developer"
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+            "HTTP_Session2": "./"
+        }
+    },
+    "description": "More info available on: http://pear.php.net/package/HTTP_Session2",
+    "include-path": [
+        "./"
+    ],
+    "license": "The BSD License",
+    "name": "pear/http_session2",
+    "support": {
+        "issues": "http://pear.php.net/bugs/search.php?cmd=display&package_name[]=HTTP_Session2",
+        "source": "https://github.com/pear/HTTP_Session2"
+    },
+    "type": "library",
+    "require": {
+        "pear/pear_exception": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "*"
+    }
+}
