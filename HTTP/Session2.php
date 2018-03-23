@@ -611,6 +611,10 @@ class HTTP_Session2
      */
     public static function register($name)
     {
+        if (!function_exists('session_register')) {
+            $_SESSION[$name] = $GLOBALS[$name];
+            return;
+        }
         session_register($name);
     }
 
@@ -624,6 +628,12 @@ class HTTP_Session2
      */
     public static function unregister($name)
     {
+        if (!function_exists('session_unregister')) {
+            if (isset($_SESSION[$name])) {
+                unset($_SESSION[$name]);
+            }
+            return;
+        }
         session_unregister($name);
     }
 

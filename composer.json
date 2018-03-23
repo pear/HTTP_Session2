@@ -27,11 +27,24 @@
         "source": "https://github.com/pear/HTTP_Session2"
     },
     "type": "library",
+    "repositories": [
+      {
+        "type": "pear",
+        "url": "http://pear.php.net"
+      }
+    ],
     "require": {
         "pear/pear_exception": "*"
     },
     "require-dev": {
-        "phpunit/phpunit": "*"
+        "phpunit/phpunit": "3.7.*",
+        "pear/pear": "*",
+        "pear/db": "@dev",
+        "pear-pear.php.net/MDB2": "@stable",
+        "pear-pear.php.net/MDB2_Driver_sqlite": "1.4.1"
+    },
+    "config": {
+        "secure-http": false
     },
     "suggest": {
         "ext-memcache": "Install ext/memcache for Memcache support",
