@@ -14,7 +14,8 @@
     "autoload": {
         "psr-0": {
             "HTTP": "./"
-        }
+        },
+        "classmap": ["HTTP"]
     },
     "description": "More info available on: http://pear.php.net/package/HTTP_Session2",
     "include-path": [
