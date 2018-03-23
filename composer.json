@@ -38,17 +38,14 @@
     },
     "require-dev": {
         "phpunit/phpunit": "3.7.*",
-        "pear/pear": "*",
-        "pear/db": "@dev",
-        "pear-pear.php.net/MDB2": "@stable",
-        "pear-pear.php.net/MDB2_Driver_sqlite": "1.4.1"
+        "pear/pear": "*"
     },
     "config": {
         "secure-http": false
     },
     "suggest": {
         "ext-memcache": "Install ext/memcache for Memcache support",
-        "pear/MDB2": "Install pear/mdb2 for MDB2 database support",
-        "pear/DB": "Intsall pear/db for DB database support"
+        "pear/MDB2": "Install pear/mdb2 for MDB2 database support(pear-pear.php.net/MDB2, pear-pear.php.net/MDB2_Driver_sqlite @stable at composer)",
+        "pear/DB": "Intsall pear/db for DB database support(pear/db @dev at composer)"
     }
 }
