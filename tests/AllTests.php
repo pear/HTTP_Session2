@@ -18,7 +18,7 @@
  * @link       http://pear.php.net/package/HTTP_Session2
  * @since      0.8.0
  */
-
+require_once 'vendor/autoload.php';
 
 /**
  * Check PHP version... PhpUnit v3+ requires at least PHP v5.1.4
